@@ -43,7 +43,7 @@ def extract_pay(text):
 
 def parse_rss(xml, source):
     tasks = []
-    for item in xml.split('<item>')[1:]:
+    for item in re.split(r'<entry>|<item>', xml)[1:]:
         try:
             title_m = re.search(r'<title[^>]*><!\[CDATA\[(.*?)\]\]></title>', item, re.S) or re.search(r'<title[^>]*>(.*?)</title>', item, re.S)
             link_m = re.search(r'<link>(.*?)</link>', item, re.S) or re.search(r'<guid[^>]*>(.*?)</guid>', item, re.S)
