@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TASKFORCE — Complete Manual</title>
+<style>
+:root{--bg:#0a0b0d;--bg2:#111318;--bg3:#181c22;--amber:#f0a500;--green:#00e5a0;--blue:#3d9eff;--red:#ff4560;--text:#c8cdd8;--text2:#7a8190;--border:#1e2330}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Courier New',monospace;line-height:1.7;padding:16px;max-width:800px;margin:0 auto}
+h1{font-size:28px;color:var(--amber);letter-spacing:4px;text-transform:uppercase;margin:20px 0 8px;border-bottom:2px solid var(--amber);padding-bottom:8px}
+h2{font-size:18px;color:var(--green);letter-spacing:2px;text-transform:uppercase;margin:28px 0 10px;padding-left:10px;border-left:3px solid var(--green)}
+h3{font-size:14px;color:var(--amber);letter-spacing:1px;text-transform:uppercase;margin:18px 0 8px}
+p{color:var(--text2);margin-bottom:10px;font-size:13px}
+.code-block{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--blue);border-radius:4px;padding:16px;margin:12px 0;overflow-x:auto}
+pre{font-family:'Courier New',monospace;font-size:11px;color:var(--text);white-space:pre;line-height:1.6}
+.copy-btn{background:var(--amber);color:var(--bg);border:none;padding:6px 14px;font-family:'Courier New',monospace;font-size:10px;font-weight:700;letter-spacing:1px;cursor:pointer;border-radius:2px;float:right;margin-bottom:6px;text-transform:uppercase}
+.copy-btn:hover{background:#ffc740}
+.copy-btn.copied{background:var(--green)}
+.step{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:16px;margin:12px 0}
+.step-num{display:inline-block;background:var(--amber);color:var(--bg);font-weight:700;font-size:11px;padding:2px 8px;border-radius:2px;margin-bottom:8px;letter-spacing:1px}
+.tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:2px;border:1px solid currentColor;margin:2px;letter-spacing:1px}
+.tag.green{color:var(--green)}
+.tag.blue{color:var(--blue)}
+.tag.amber{color:var(--amber)}
+.tag.red{color:var(--red)}
+.warning{background:rgba(255,69,96,.08);border:1px solid var(--red);border-radius:4px;padding:12px;margin:12px 0;font-size:12px;color:var(--text)}
+.tip{background:rgba(0,229,160,.08);border:1px solid var(--green);border-radius:4px;padding:12px;margin:12px 0;font-size:12px;color:var(--text)}
+.url{color:var(--blue);text-decoration:none;font-size:12px}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px}
+th{background:var(--bg3);color:var(--amber);padding:8px 12px;text-align:left;border:1px solid var(--border);letter-spacing:1px;font-size:10px;text-transform:uppercase}
+td{padding:8px 12px;border:1px solid var(--border);color:var(--text2)}
+tr:nth-child(even){background:var(--bg2)}
+.toc{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:16px;margin:20px 0}
+.toc a{display:block;color:var(--text2);text-decoration:none;padding:4px 0;font-size:12px;border-bottom:1px solid var(--border)}
+.toc a:hover{color:var(--amber)}
+.toc a:last-child{border-bottom:none}
+.section{margin-bottom:40px}
+</style>
+</head>
+<body>
+
+<h1>⚡ TASKFORCE</h1>
+<p style="color:var(--amber);font-size:14px">Complete Setup & Operations Manual — Everything copy-paste ready</p>
+
+<div class="toc">
+  <h3 style="margin-bottom:10px">Contents</h3>
+  <a href="#architecture">1. How It Works</a>
+  <a href="#urls">2. Important URLs</a>
+  <a href="#files">3. File Contents (copy-paste)</a>
+  <a href="#secrets">4. GitHub Secrets</a>
+  <a href="#gmail">5. Gmail App Password Setup</a>
+  <a href="#workflow">6. Daily Workflow</a>
+  <a href="#money">7. Getting Paid</a>
+  <a href="#tasks">8. What Tasks Work</a>
+  <a href="#troubleshoot">9. Troubleshooting</a>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<div class="section" id="architecture">
+<h2>1. How It Works</h2>
+<p>Zero cost, fully autonomous. Here's the complete flow:</p>
+<div class="step">
+  <div style="font-size:12px;line-height:2.2;color:var(--text2)">
+    <span style="color:var(--green)">①</span> GitHub Actions bot wakes up <strong style="color:var(--amber)">every 15 minutes</strong>, 24/7<br/>
+    <span style="color:var(--green)">②</span> Fetches r/forhire + r/slavelabour via RSS (Reddit can't block this)<br/>
+    <span style="color:var(--green)">③</span> Filters out tasks AI can't do (video, design, etc.)<br/>
+    <span style="color:var(--green)">④</span> Pushes doable tasks to <strong style="color:var(--amber)">Firebase</strong><br/>
+    <span style="color:var(--green)">⑤</span> If task pays $15+, sends you a <strong style="color:var(--amber)">Gmail alert</strong><br/>
+    <span style="color:var(--green)">⑥</span> You open dashboard on phone → tap <strong style="color:var(--amber)">APPROVE</strong><br/>
+    <span style="color:var(--green)">⑦</span> Bot picks up approved task, runs it through <strong style="color:var(--amber)">Gemini AI</strong> (free)<br/>
+    <span style="color:var(--green)">⑧</span> Completed deliverable appears in your dashboard<br/>
+    <span style="color:var(--green)">⑨</span> You copy it → reply to Reddit post → client pays you<br/>
+    <span style="color:var(--green)">⑩</span> Tap <strong style="color:var(--amber)">MARK PAID 💰</strong> in dashboard
+  </div>
+</div>
+
+<table>
+  <tr><th>Component</th><th>What It Does</th><th>Cost</th></tr>
+  <tr><td>GitHub Pages</td><td>Hosts your dashboard forever</td><td style="color:var(--green)">FREE</td></tr>
+  <tr><td>GitHub Actions</td><td>Runs the bot every 15 min</td><td style="color:var(--green)">FREE</td></tr>
+  <tr><td>Firebase Realtime DB</td><td>Stores tasks, syncs to your phone</td><td style="color:var(--green)">FREE</td></tr>
+  <tr><td>Reddit RSS</td><td>Task discovery</td><td style="color:var(--green)">FREE</td></tr>
+  <tr><td>Gemini 1.5 Flash</td><td>AI execution (1M tokens/day)</td><td style="color:var(--green)">FREE</td></tr>
+  <tr><td style="color:var(--amber);font-weight:bold">TOTAL</td><td></td><td style="color:var(--green);font-weight:bold">$0 / month</td></tr>
+</table>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<div class="section" id="urls">
+<h2>2. Important URLs</h2>
+<table>
+  <tr><th>What</th><th>URL</th></tr>
+  <tr><td>Your Dashboard</td><td><a class="url" href="https://nadavw9.github.io/taskforce" target="_blank">nadavw9.github.io/taskforce</a></td></tr>
+  <tr><td>GitHub Repo</td><td><a class="url" href="https://github.com/nadavw9/taskforce" target="_blank">github.com/nadavw9/taskforce</a></td></tr>
+  <tr><td>GitHub Actions</td><td><a class="url" href="https://github.com/nadavw9/taskforce/actions" target="_blank">github.com/nadavw9/taskforce/actions</a></td></tr>
+  <tr><td>GitHub Secrets</td><td><a class="url" href="https://github.com/nadavw9/taskforce/settings/secrets/actions" target="_blank">github.com/nadavw9/taskforce/settings/secrets/actions</a></td></tr>
+  <tr><td>Firebase DB</td><td><a class="url" href="https://taskforce-2b7da-default-rtdb.firebaseio.com" target="_blank">taskforce-2b7da-default-rtdb.firebaseio.com</a></td></tr>
+  <tr><td>Gemini API Keys</td><td><a class="url" href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a></td></tr>
+  <tr><td>Gmail App Passwords</td><td><a class="url" href="https://myaccount.google.com/apppasswords" target="_blank">myaccount.google.com/apppasswords</a></td></tr>
+</table>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<div class="section" id="files">
+<h2>3. File Contents</h2>
+<p>These are the exact contents of every file in your repo. Copy-paste if you ever need to recreate.</p>
+
+<h3>📄 bot.py — The autonomous bot</h3>
+<div class="code-block">
+  <button class="copy-btn" onclick="copyBlock(this)">COPY</button>
+  <pre id="botpy">import requests, os, datetime, re, time, smtplib
+from email.mime.text import MIMEText
+
+FIREBASE = os.environ['FIREBASE_URL'].rstrip('/')
+GEMINI_KEY = os.environ['GEMINI_KEY']
+GMAIL_USER = os.environ.get('GMAIL_USER', '')
+GMAIL_PASS = os.environ.get('GMAIL_PASS', '')
+NOTIFY_EMAIL = os.environ.get('NOTIFY_EMAIL', GMAIL_USER)
+MIN_PAY_ALERT = 15  # Email alert for tasks paying $15+
+
+GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_KEY}"
+
+FEEDS = [
+    ('r/forhire', 'https://www.reddit.com/r/forhire/new/.rss?limit=50'),
+    ('r/slavelabour', 'https://www.reddit.com/r/slavelabour/new/.rss?limit=50'),
+]
+HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (compatible; RSS reader)',
+    'Accept': 'application/rss+xml, application/xml, text/xml'
+}
+
+DOABLE_PATTERNS = re.compile(
+    r'\b(writ|blog|article|post|copy|content|email|letter|descri|summar|research|'
+    r'find|gather|translat|edit|proofread|script|code|python|javascript|html|css|'
+    r'automat|bot|scrap|data|analyz|report|review|rewrite|caption|bio|proposal|'
+    r'cv|resume|cover.?letter|product.?descri|social.?media|tweet|reddit|seo)\b',
+    re.I
+)
+UNDOABLE_PATTERNS = re.compile(
+    r'\b(video|photo|image|logo|design|illustrat|voiceover|voice.?over|audio|'
+    r'podcast|record|film|animat|3d|photoshop|figma|draw|sketch|paint|'
+    r'physical|deliver|print|call|phone|meet|zoom|in.?person)\b',
+    re.I
+)
+
+def fb(path, method='GET', data=None):
+    url = f"{FIREBASE}{path}.json"
+    r = requests.request(method, url, json=data,
+                         headers={'Content-Type': 'application/json'}, timeout=15)
+    if r.status_code == 200:
+        return r.json()
+    print(f"Firebase error {r.status_code}: {r.text[:200]}")
+    return None
+
+def gemini(prompt):
+    body = {"contents": [{"parts": [{"text": prompt}]}]}
+    r = requests.post(GEMINI_URL, json=body, timeout=60)
+    return r.json()['candidates'][0]['content']['parts'][0]['text']
+
+def detect_type(text):
+    t = text.lower()
+    if re.search(r'\b(code|script|python|javascript|js|html|css|api|bot|develop|bug|fix|app|program|automat)\b', t):
+        return 'coding'
+    if re.search(r'\b(research|find|gather|data|list|report|analy|summariz|survey|compil|translat)\b', t):
+        return 'research'
+    return 'writing'
+
+def extract_pay(text):
+    matches = re.findall(r'\$\s*(\d+(?:,\d+)?(?:\.\d+)?)', text)
+    if not matches:
+        return None
+    vals = [float(m.replace(',', '')) for m in matches if 0 < float(m.replace(',', '')) < 50000]
+    return f"${max(vals):.0f}" if vals else None
+
+def is_doable(title, desc):
+    text = title + ' ' + desc
+    if UNDOABLE_PATTERNS.search(text):
+        return False
+    if DOABLE_PATTERNS.search(text):
+        return True
+    return True
+
+def send_email(subject, body):
+    if not GMAIL_USER or not GMAIL_PASS:
+        print("Email not configured — skipping")
+        return
+    try:
+        msg = MIMEText(body, 'html')
+        msg['Subject'] = subject
+        msg['From'] = GMAIL_USER
+        msg['To'] = NOTIFY_EMAIL
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as s:
+            s.login(GMAIL_USER, GMAIL_PASS)
+            s.send_message(msg)
+        print(f"Email sent: {subject}")
+    except Exception as e:
+        print(f"Email error: {e}")
+
+def parse_rss(xml, source):
+    tasks = []
+    for item in re.split(r'&lt;entry&gt;|&lt;item&gt;', xml)[1:]:
+        try:
+            title_m = re.search(r'&lt;title[^&gt;]*&gt;&lt;!\[CDATA\[(.*?)\]\]&gt;&lt;/title&gt;', item, re.S) or \
+                      re.search(r'&lt;title[^&gt;]*&gt;(.*?)&lt;/title&gt;', item, re.S)
+            link_m = re.search(r'&lt;link[^&gt;]+href=["\']([^"\']+)["\']', item, re.S) or \
+                     re.search(r'&lt;link&gt;(.*?)&lt;/link&gt;', item, re.S) or \
+                     re.search(r'&lt;guid[^&gt;]*&gt;(.*?)&lt;/guid&gt;', item, re.S)
+            desc_m = re.search(r'&lt;content[^&gt;]*&gt;&lt;!\[CDATA\[(.*?)\]\]&gt;&lt;/content&gt;', item, re.S) or \
+                     re.search(r'&lt;description[^&gt;]*&gt;&lt;!\[CDATA\[(.*?)\]\]&gt;&lt;/description&gt;', item, re.S) or \
+                     re.search(r'&lt;description[^&gt;]*&gt;(.*?)&lt;/description&gt;', item, re.S)
+            title = title_m.group(1).strip() if title_m else ''
+            link = link_m.group(1).strip() if link_m else ''
+            desc = re.sub(r'&lt;[^&gt;]+&gt;', '', desc_m.group(1) if desc_m else '').strip()[:600]
+            id_m = re.search(r'/comments/([a-z0-9]+)/', link)
+            pid = id_m.group(1) if id_m else re.sub(r'[^a-z0-9]', '', title.lower())[:12]
+            if not title or not pid:
+                continue
+            if 'forhire' in source and not re.search(r'\[h', title, re.I):
+                continue
+            if not is_doable(title, desc):
+                continue
+            tasks.append({
+                'id': pid, 'redditId': pid,
+                'title': re.sub(r'^\[(h|hiring|for hire)\]\s*', '', title, flags=re.I).strip(),
+                'description': desc or 'No description.',
+                'pay': extract_pay(title + ' ' + desc),
+                'type': detect_type(title + ' ' + desc),
+                'source': source, 'url': link,
+                'createdAt': int(time.time()),
+                'status': 'inbox',
+                'fetchedAt': int(datetime.datetime.utcnow().timestamp() * 1000)
+            })
+        except Exception as e:
+            print(f"Parse error: {e}")
+    return tasks
+
+def fetch_reddit():
+    existing = fb('/tasks') or {}
+    existing_ids = set(existing.keys())
+    new_tasks = {}
+    high_pay_tasks = []
+    for source, feed_url in FEEDS:
+        try:
+            r = requests.get(feed_url, headers=HEADERS, timeout=20)
+            print(f"{source} RSS: {r.status_code}")
+            if not r.ok:
+                continue
+            tasks = parse_rss(r.text, source)
+            fresh = [t for t in tasks if t['id'] not in existing_ids]
+            print(f"{source}: {len(fresh)} new doable tasks")
+            for t in fresh:
+                new_tasks[t['id']] = t
+                pay_val = float(t['pay'].replace('$','').replace(',','')) if t.get('pay') else 0
+                if pay_val >= MIN_PAY_ALERT:
+                    high_pay_tasks.append(t)
+        except Exception as e:
+            print(f"Error {source}: {e}")
+    if new_tasks:
+        for pid, task in new_tasks.items():
+            fb(f'/tasks/{pid}', 'PUT', task)
+        print(f"Pushed {len(new_tasks)} tasks to Firebase")
+    if high_pay_tasks:
+        rows = ''.join([f'&lt;tr&gt;&lt;td style="padding:10px;color:#f0a500"&gt;{t["pay"]}&lt;/td&gt;&lt;td style="padding:10px"&gt;{t["title"][:60]}&lt;/td&gt;&lt;td style="padding:10px"&gt;&lt;a href="{t["url"]}"&gt;View&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;' for t in high_pay_tasks])
+        send_email(
+            f"⚡ TASKFORCE: {len(high_pay_tasks)} task(s) paying ${MIN_PAY_ALERT}+",
+            f'&lt;div style="background:#0a0b0d;color:#c8cdd8;padding:20px;font-family:monospace"&gt;&lt;h2 style="color:#f0a500"&gt;⚡ High-Pay Tasks Available&lt;/h2&gt;&lt;table style="width:100%"&gt;{rows}&lt;/table&gt;&lt;p&gt;&lt;a href="https://nadavw9.github.io/taskforce" style="color:#00e5a0"&gt;Open Dashboard →&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;'
+        )
+
+def execute_tasks():
+    tasks = fb('/tasks') or {}
+    approved = {k: v for k, v in tasks.items() if isinstance(v, dict) and v.get('status') == 'approved'}
+    print(f"Approved tasks to execute: {len(approved)}")
+    for key, task in approved.items():
+        print(f"Executing: {task.get('title','?')[:50]}")
+        fb(f'/tasks/{key}', 'PATCH', {'status': 'executing'})
+        try:
+            prompts = {
+                'coding': 'You are an expert developer completing a paid freelance task. Write complete, working, well-commented code with usage instructions:',
+                'research': 'You are a professional researcher completing a paid freelance task. Provide thorough, organized, accurate findings with a summary:',
+                'writing': 'You are an expert copywriter completing a paid freelance task. Write compelling, professional, ready-to-submit content:'
+            }
+            t = task.get('type', 'writing')
+            prompt = f"{prompts.get(t, prompts['writing'])}\n\nTask: {task.get('title','')}\n\nDetails: {task.get('description','')}\n\nPay: {task.get('pay','negotiable')}\n\nDeliver professional, complete work ready to send to the client."
+            output = gemini(prompt)
+            fb(f'/tasks/{key}', 'PATCH', {
+                'status': 'done', 'output': output,
+                'completedAt': datetime.datetime.utcnow().isoformat()
+            })
+            print(f"Done: {task.get('title','?')[:40]}")
+            if GMAIL_USER and GMAIL_PASS:
+                send_email(
+                    f"✅ Task completed: {task.get('title','')[:50]}",
+                    f'&lt;div style="background:#0a0b0d;color:#c8cdd8;padding:20px;font-family:monospace"&gt;&lt;h2 style="color:#00e5a0"&gt;✅ Task Done&lt;/h2&gt;&lt;p style="color:#f0a500"&gt;{task.get("title","")}&lt;/p&gt;&lt;p&gt;Pay: {task.get("pay","?")}&lt;/p&gt;&lt;a href="https://nadavw9.github.io/taskforce" style="color:#00e5a0"&gt;Open Dashboard to copy &amp; send →&lt;/a&gt;&lt;/div&gt;'
+                )
+        except Exception as e:
+            fb(f'/tasks/{key}', 'PATCH', {'status': 'error', 'error': str(e)})
+            print(f"Error: {e}")
+
+print("=== TaskForce Bot Starting ===")
+fetch_reddit()
+execute_tasks()
+print("=== Bot Done ===")</pre>
+</div>
+
+<h3>📄 .github/workflows/run-bot.yml — Scheduler</h3>
+<div class="code-block">
+  <button class="copy-btn" onclick="copyBlock(this)">COPY</button>
+  <pre id="yml">name: TaskForce Bot
+"on":
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python bot.py
+        env:
+          FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
+          GEMINI_KEY: ${{ secrets.GEMINI_KEY }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_PASS: ${{ secrets.GMAIL_PASS }}</pre>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<div class="section" id="secrets">
+<h2>4. GitHub Secrets</h2>
+<p>Go to: <a class="url" href="https://github.com/nadavw9/taskforce/settings/secrets/actions">github.com/nadavw9/taskforce/settings/secrets/actions</a></p>
+
+<table>
+  <tr><th>Secret Name</th><th>Value</th><th>Status</th></tr>
+  <tr><td>FIREBASE_URL</td><td>https://taskforce-2b7da-default-rtdb.firebaseio.com</td><td style="color:var(--green)">✅ Already set</td></tr>
+  <tr><td>GEMINI_KEY</td><td>Your AIzaSy... key from aistudio.google.com</td><td style="color:var(--green)">✅ Already set</td></tr>
+  <tr><td>GMAIL_USER</td><td>your.email@gmail.com</td><td style="color:var(--amber)">⬜ Add this</td></tr>
+  <tr><td>GMAIL_PASS</td><td>16-char app password (not your real password)</td><td style="color:var(--amber)">⬜ Add this</td></tr>
+</table>
+
+<div class="warning">⚠️ GMAIL_PASS must be an App Password — NOT your real Gmail password. See section 5 below.</div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<div class="section" id="gmail">
+<h2>5. Gmail App Password</h2>
+<p>Required for email alerts. Takes 2 minutes.</p>
+
+<div class="step"><div class="step-num">STEP 1</div><br/>Go to <a class="url" href="https://myaccount.google.com/security">myaccount.google.com/security</a><br/>Make sure <strong style="color:var(--amber)">2-Step Verification is ON</strong> (required for App Passwords)</div>
+<div class="step"><div class="step-num">STEP 2</div><br/>Go to <a class="url" href="https://myaccount.google.com/apppasswords">myaccount.google.com/apppasswords</a></div>
+<div class="step"><div class="step-num">STEP 3</div><br/>In "App name" type: <strong style="color:var(--amber)">taskforce</strong><br/>Tap <strong style="color:var(--amber)">Create</strong></div>
+<div class="step"><div class="step-num">STEP 4</div><br/>Copy the 16-character code shown (e.g. <code style="color:var(--green)">abcd efgh ijkl mnop</code>)<br/>Remove the spaces when pasting into GitHub Secret</div>
+<div class="step"><div class="step-num">STEP 5</div><br/>Go to GitHub Secrets → Add <strong style="color:var(--amber)">GMAIL_USER</strong> (your Gmail) and <strong style="color:var(--amber)">GMAIL_PASS</strong> (the 16-char code)</div>
+
+<div class="tip">✅ After adding these secrets, update run-bot.yml to include GMAIL_USER and GMAIL_PASS env vars (already shown in the yml file above)</div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<div class="section" id="workflow">
+<h2>6. Daily Workflow</h2>
+
+<table>
+  <tr><th>Action</th><th>How</th><th>Time</th></tr>
+  <tr><td>Check for tasks</td><td>Bot does it automatically every 15 min</td><td>0 sec</td></tr>
+  <tr><td>Get alerted</td><td>Email lands in Gmail for $15+ tasks</td><td>0 sec</td></tr>
+  <tr><td>Approve a task</td><td>Open dashboard → tap APPROVE</td><td>5 sec</td></tr>
+  <tr><td>Wait for AI</td><td>Bot runs within 15 min max</td><td>0-15 min</td></tr>
+  <tr><td>Send deliverable</td><td>Tap COPY → reply to Reddit post</td><td>30 sec</td></tr>
+  <tr><td>Collect payment</td><td>Client sends PayPal/Wise</td><td>varies</td></tr>
+  <tr><td>Record payment</td><td>Tap MARK PAID 💰 in dashboard</td><td>2 sec</td></tr>
+</table>
+
+<h3>What to say to the client</h3>
+<div class="code-block">
+  <button class="copy-btn" onclick="copyBlock(this)">COPY</button>
+  <pre id="msg1">Hi! I can help with this. I've already completed it — here's a preview:
+
+[paste first 2-3 sentences of deliverable]
+
+Full work ready to send. Payment via PayPal/Wise first, then I'll send the complete file. 
+What works for you?</pre>
+</div>
+
+<h3>If they want proof of quality first</h3>
+<div class="code-block">
+  <button class="copy-btn" onclick="copyBlock(this)">COPY</button>
+  <pre id="msg2">Happy to share the full deliverable — it's done and ready. 
+To confirm quality and protect both of us, payment first via [PayPal/Wise].
+Send me your preferred method and I'll share my details.</pre>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<div class="section" id="money">
+<h2>7. Getting Paid</h2>
+
+<h3>Payment methods to set up</h3>
+<table>
+  <tr><th>Method</th><th>Best For</th><th>Fees</th><th>Setup</th></tr>
+  <tr><td>PayPal</td><td>Most common on Reddit</td><td>~3%</td><td><a class="url" href="https://paypal.com">paypal.com</a></td></tr>
+  <tr><td>Wise</td><td>International clients, low fees</td><td>~1%</td><td><a class="url" href="https://wise.com">wise.com</a></td></tr>
+  <tr><td>Revolut</td><td>Fast, good for Europe</td><td>Low</td><td><a class="url" href="https://revolut.com">revolut.com</a></td></tr>
+  <tr><td>Crypto (USDC)</td><td>Some Reddit users prefer</td><td>~0%</td><td>Coinbase/Binance</td></tr>
+</table>
+
+<div class="warning">⚠️ NEVER send the full deliverable before receiving payment. Always collect payment first, or use a screenshot/preview as proof.</div>
+
+<h3>Pricing tips</h3>
+<div class="step">
+  <div style="font-size:12px;line-height:2.2;color:var(--text2)">
+    • If post says $10 → accept it, good for low effort<br/>
+    • If post says $20-50 → sweet spot, accept it<br/>
+    • If post says $50+ → accept it, AI can handle it<br/>
+    • If no price listed → reply asking for budget first<br/>
+    • Never undercut yourself — your time reviewing is worth something too
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<div class="section" id="tasks">
+<h2>8. What Tasks Work</h2>
+
+<table>
+  <tr><th>Task Type</th><th>Examples</th><th>AI Quality</th></tr>
+  <tr><td><span class="tag green">✅ WRITING</span></td><td>Blog posts, articles, product descriptions, emails, bios, cover letters, proposals</td><td style="color:var(--green)">Excellent</td></tr>
+  <tr><td><span class="tag green">✅ RESEARCH</span></td><td>Summaries, market research, competitor analysis, fact-finding, data compilation</td><td style="color:var(--green)">Excellent</td></tr>
+  <tr><td><span class="tag green">✅ CODING</span></td><td>Python scripts, automation, web scraping, simple apps, bug fixes, HTML/CSS</td><td style="color:var(--green)">Very Good</td></tr>
+  <tr><td><span class="tag green">✅ TRANSLATION</span></td><td>Any language pair, documents, posts</td><td style="color:var(--green)">Very Good</td></tr>
+  <tr><td><span class="tag amber">⚠️ MAYBE</span></td><td>Complex full-stack apps, very niche technical topics</td><td style="color:var(--amber)">Review before sending</td></tr>
+  <tr><td><span class="tag red">❌ SKIP</span></td><td>Video editing, logo design, voiceovers, photography, in-person tasks</td><td style="color:var(--red)">Auto-filtered out</td></tr>
+</table>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<div class="section" id="troubleshoot">
+<h2>9. Troubleshooting</h2>
+
+<table>
+  <tr><th>Problem</th><th>Fix</th></tr>
+  <tr><td>No tasks showing in app</td><td>Tap REFRESH REDDIT NOW. Bot pushes tasks every 15 min.</td></tr>
+  <tr><td>Bot failing in Actions</td><td>Check Actions logs. Most common: wrong secret name.</td></tr>
+  <tr><td>Approved task stuck</td><td>Go to Actions → Run workflow manually to trigger bot now.</td></tr>
+  <tr><td>Firebase not connecting</td><td>Go to ⚙ Setup tab in app → check Firebase URL is saved.</td></tr>
+  <tr><td>No email alerts</td><td>Check GMAIL_USER and GMAIL_PASS secrets are set. Use App Password not real password.</td></tr>
+  <tr><td>Bot runs but 0 tasks</td><td>All tasks already in Firebase. Clears over time as new posts come in.</td></tr>
+  <tr><td>Output looks wrong</td><td>Check it yourself before sending. For coding tasks especially, review the code.</td></tr>
+</table>
+
+<h3>Manual trigger (force bot to run now)</h3>
+<p>Go to <a class="url" href="https://github.com/nadavw9/taskforce/actions">github.com/nadavw9/taskforce/actions</a> → TaskForce Bot → Run workflow → Run workflow</p>
+
+<h3>Check Firebase directly</h3>
+<p>Go to <a class="url" href="https://taskforce-2b7da-default-rtdb.firebaseio.com/tasks.json">taskforce-2b7da-default-rtdb.firebaseio.com/tasks.json</a> to see all tasks raw.</p>
+</div>
+
+<div style="text-align:center;padding:30px;color:var(--text2);font-size:11px;border-top:1px solid var(--border);margin-top:40px">
+  TASKFORCE — Built with Claude · All components free forever · $0/month
+</div>
+
+<script>
+function copyBlock(btn) {
+  const pre = btn.nextElementSibling;
+  let text = pre.innerText;
+  // Fix HTML entities in bot.py display
+  text = text.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'COPIED!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'COPY'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>
