@@ -55,7 +55,7 @@ def parse_rss(xml, source):
             pid = id_m.group(1) if id_m else re.sub(r'[^a-z0-9]', '', title.lower())[:12]
             if not title or not pid:
                 continue
-            if 'forhire' in source and not re.search(r'\[h', title, re.I):
+            if 'forhire' in source and not re.search(r'\[h|\bhiring\b', title, re.I):
                 continue
             tasks.append({
                 'id': pid, 'redditId': pid,
