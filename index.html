@@ -1,1 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TASKFORCE</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Courier+Prime:wght@400;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+:root {
+  --bg:#0a0b0d; --bg2:#111318; --bg3:#181c22;
+  --amber:#f0a500; --amber2:#ffc740;
+  --green:#00e5a0; --red:#ff4560; --blue:#3d9eff;
+  --muted:#3a3f4a; --text:#c8cdd8; --text2:#7a8190;
+  --border:#1e2330;
+  --fh:'Barlow Condensed',sans-serif;
+  --fm:'Courier Prime',monospace;
+  --fb:'Barlow',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--text);font-family:var(--fb)}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:52px;background:var(--bg2);border-bottom:1px solid var(--border);position:fixed;top:0;left:0;right:0;z-index:200}
+.logo{font-family:var(--fh);font-weight:900;font-size:20px;letter-spacing:4px;color:var(--amber)}
+.logo span{color:var(--text2);font-weight:400}
+.top-stats{display:flex;gap:10px;align-items:center}
+.stat-chip{background:var(--bg3);border:1px solid var(--border);padding:3px 8px;border-radius:3px;font-family:var(--fm);font-size:11px;color:var(--text2)}
+.stat-chip strong{color:var(--amber)}
+.pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse 2s infinite;display:inline-block}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.setup-banner{position:fixed;left:0;right:0;z-index:190;background:linear-gradient(90deg,#1a1200,#241900);border-bottom:2px solid var(--amber);padding:14px 16px}
+.setup-banner-title{font-family:var(--fh);font-size:14px;letter-spacing:2px;color:var(--amber);margin-bottom:6px;text-transform:uppercase}
+.setup-banner-desc{font-size:12px;color:var(--text2);margin-bottom:10px;line-height:1.6}
+.setup-input{width:100%;background:var(--bg3);border:1px solid var(--amber);color:var(--text);padding:8px 12px;font-family:var(--fm);font-size:12px;border-radius:3px;outline:none;margin-bottom:8px}
+.setup-save{width:100%;background:var(--amber);color:var(--bg);border:none;padding:10px;font-family:var(--fh);font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:3px}
+.main{position:fixed;left:0;right:0;bottom:56px;overflow-y:auto;padding:12px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:var(--bg2);border-top:1px solid var(--border);display:flex;z-index:200}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:none;background:transparent;color:var(--text2);font-family:var(--fh);font-size:10px;letter-spacing:1px;text-transform:uppercase;position:relative;transition:color 0.15s}
+.nav-btn.active{color:var(--amber)}
+.nav-btn.active::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:2px;background:var(--amber);border-radius:2px}
+.nav-icon{font-size:18px;line-height:1}
+.nav-badge{position:absolute;top:6px;right:calc(50% - 18px);background:var(--red);color:#fff;font-family:var(--fm);font-size:9px;padding:1px 4px;border-radius:8px;font-weight:700}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 16px;margin-bottom:10px;position:relative;border-left:3px solid var(--muted);animation:fadeUp .25s ease;transition:border-color .15s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card.writing{border-left-color:var(--blue)}
+.card.coding{border-left-color:var(--green)}
+.card.research{border-left-color:var(--amber)}
+.card.done{border-left-color:var(--green);opacity:.85}
+.card.executing,.card.approved{border-left-color:var(--amber)}
+.card-meta{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.badge{font-family:var(--fh);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:2px 7px;border-radius:2px;border:1px solid currentColor}
+.badge.writing{color:var(--blue)}
+.badge.coding{color:var(--green)}
+.badge.research{color:var(--amber)}
+.badge.done{color:var(--green)}
+.badge.approved,.badge.executing{color:var(--amber)}
+.badge.error{color:var(--red)}
+.source-tag{font-family:var(--fm);font-size:10px;color:var(--text2)}
+.pay{margin-left:auto;font-family:var(--fm);font-size:15px;font-weight:700;color:var(--green)}
+.card-title{font-family:var(--fh);font-size:17px;font-weight:600;margin-bottom:6px;line-height:1.3}
+.card-desc{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card-desc.expanded{-webkit-line-clamp:unset}
+.card-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn-ok{background:var(--green);color:var(--bg);border:none;padding:9px 20px;font-family:var(--fh);font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border-radius:3px;flex:1}
+.btn-ok:hover{background:#00ffb5}
+.btn-skip{background:transparent;color:var(--text2);border:1px solid var(--muted);padding:9px 16px;font-family:var(--fh);font-size:13px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border-radius:3px}
+.btn-skip:hover{border-color:var(--red);color:var(--red)}
+.btn-link{font-family:var(--fm);font-size:10px;color:var(--blue);text-decoration:none;align-self:center;margin-left:auto}
+.prog-bar{height:3px;background:linear-gradient(90deg,var(--amber),transparent);background-size:200%;animation:shimmer 1.5s infinite;border-radius:2px;margin-top:10px}
+@keyframes shimmer{0%{background-position:100%}100%{background-position:-100%}}
+.output-box{background:var(--bg3);border:1px solid var(--border);border-radius:4px;margin-top:12px}
+.output-head{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--border)}
+.output-label{font-family:var(--fm);font-size:10px;color:var(--green)}
+.copy-btn{background:transparent;border:1px solid var(--muted);color:var(--text2);padding:3px 8px;font-family:var(--fm);font-size:10px;cursor:pointer;border-radius:2px}
+.copy-btn:hover{border-color:var(--green);color:var(--green)}
+.output-body{padding:12px;font-size:12px;color:var(--text2);line-height:1.7;white-space:pre-wrap;max-height:280px;overflow-y:auto}
+.section-head{font-family:var(--fh);font-size:11px;letter-spacing:2px;color:var(--text2);text-transform:uppercase;padding:12px 0 8px;border-bottom:1px solid var(--border);margin-bottom:10px}
+.empty{text-align:center;padding:60px 20px;color:var(--text2)}
+.empty-icon{font-size:40px;margin-bottom:12px;opacity:.4}
+.empty-title{font-family:var(--fh);font-size:18px;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;color:var(--text)}
+.loading-row{display:flex;align-items:center;gap:10px;padding:14px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;margin-bottom:10px;font-family:var(--fm);font-size:11px;color:var(--text2)}
+.spinner{width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--amber);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.field-label{font-family:var(--fh);font-size:10px;letter-spacing:2px;color:var(--text2);text-transform:uppercase;margin-bottom:5px}
+.field-input{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:9px 12px;font-family:var(--fm);font-size:12px;border-radius:3px;outline:none;margin-bottom:4px;transition:border-color .15s}
+.field-input:focus{border-color:var(--amber)}
+.field-hint{font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.5}
+.field-select{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:9px 12px;font-family:var(--fm);font-size:12px;border-radius:3px;outline:none;margin-bottom:14px}
+.save-btn{width:100%;background:var(--amber);color:var(--bg);border:none;padding:12px;font-family:var(--fh);font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:3px;margin-top:4px}
+.save-btn:hover{background:var(--amber2)}
+.rev-card{background:var(--bg3);border:1px solid var(--amber);border-radius:6px;padding:16px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.rev-label{font-family:var(--fh);font-size:10px;letter-spacing:2px;color:var(--amber);text-transform:uppercase;margin-bottom:4px}
+.rev-num{font-family:var(--fm);font-size:30px;color:var(--green);font-weight:700}
+.rev-sub{font-family:var(--fm);font-size:11px;color:var(--text2)}
+.sys-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-family:var(--fm);font-size:12px}
+.sys-row:last-child{border-bottom:none}
+.filter-tabs{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:2px}
+.filter-tab{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px 14px;font-family:var(--fh);font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:3px;white-space:nowrap;flex-shrink:0}
+.filter-tab.active{border-color:var(--amber);color:var(--amber);background:rgba(240,165,0,.08)}
+.refresh-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:10px 14px;font-family:var(--fh);font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:3px;width:100%;margin-bottom:10px}
+.refresh-btn:hover{border-color:var(--amber);color:var(--amber)}
+.refresh-btn:disabled{opacity:.5;cursor:not-allowed}
+.toast{position:fixed;bottom:68px;left:12px;right:12px;background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--green);padding:12px 14px;font-family:var(--fm);font-size:12px;border-radius:4px;z-index:999;animation:fadeUp .25s ease}
+.toast.error{border-left-color:var(--red)}
+.toast.warn{border-left-color:var(--amber)}
+.manual-wrap{background:var(--bg3);border:1px dashed var(--muted);border-radius:6px;padding:16px;margin-bottom:12px}
+textarea.field-input{resize:vertical;min-height:80px}
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-thumb{background:var(--muted);border-radius:2px}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const {useState,useEffect,useRef,useCallback} = React;
 
+const store = {
+  get:(k,d)=>{try{const v=localStorage.getItem(k);return v!=null?JSON.parse(v):d}catch{return d}},
+  set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}}
+};
+function uid(){return Math.random().toString(36).slice(2)+Date.now().toString(36)}
+function timeAgo(ts){const s=Math.floor((Date.now()/1000)-ts);if(s<60)return s+'s ago';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';return Math.floor(s/86400)+'d ago'}
+function detectType(t){const s=t.toLowerCase();if(/\b(code|script|python|javascript|js|html|css|api|bot|develop|bug|fix|app|program)\b/.test(s))return'coding';if(/\b(research|find|gather|data|list|report|analy|summariz|survey|compil)\b/.test(s))return'research';return'writing'}
+function extractPay(t){const m=t.match(/\$\s*(\d+(?:[,\d]*)?(?:\.\d+)?)/gi);if(!m)return null;const vals=m.map(x=>parseFloat(x.replace(/[^\d.]/g,''))).filter(x=>x>0&&x<50000);return vals.length?'$'+Math.max(...vals):null}
+
+function makeDB(url){
+  const base=url.replace(/\/$/,'');
+  async function req(path,opts={}){const r=await fetch(base+path+'.json',{...opts,signal:AbortSignal.timeout(8000)});if(!r.ok)throw new Error('Firebase '+r.status);return r.json()}
+  return{
+    get:p=>req(p),
+    set:(p,d)=>req(p,{method:'PUT',body:JSON.stringify(d),headers:{'Content-Type':'application/json'}}),
+    patch:(p,d)=>req(p,{method:'PATCH',body:JSON.stringify(d),headers:{'Content-Type':'application/json'}}),
+    del:p=>req(p,{method:'DELETE'})
+  }
+}
+
+const PROXY='https://api.allorigins.win/raw?url=';
+const SUBS=['forhire','slavelabour'];
+
+async function fetchSub(sub,existingIds){
+  try{
+    const url=encodeURIComponent('https://www.reddit.com/r/'+sub+'/new.json?limit=25&raw_json=1');
+    const r=await fetch(PROXY+url,{signal:AbortSignal.timeout(9000)});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const data=await r.json();
+    return (data?.data?.children||[]).map(p=>p.data)
+      .filter(p=>{
+        if(existingIds.has(p.id)||p.over_18)return false;
+        if(sub==='forhire'&&!(/\[h(iring)?\]|^hiring/i.test(p.title)))return false;
+        const txt=(p.title+' '+(p.selftext||'')).toLowerCase();
+        return/\b(writ|code|script|research|find|creat|build|content|copy|blog|article|data|analy)\b/.test(txt);
+      })
+      .map(p=>({
+        id:p.id,redditId:p.id,
+        title:p.title.replace(/^\[(h|hiring)\]\s*/i,'').trim(),
+        description:(p.selftext||'No description.').slice(0,600),
+        pay:extractPay(p.title+' '+(p.selftext||'')),
+        type:detectType(p.title+' '+(p.selftext||'')),
+        source:'r/'+sub,url:'https://reddit.com'+p.permalink,
+        createdAt:p.created_utc,status:'inbox',fetchedAt:Date.now()
+      }));
+  }catch(e){console.warn('r/'+sub+':',e.message);return[]}
+}
+
+function TaskCard({task,onApprove,onSkip}){
+  const [expanded,setExpanded]=useState(false);
+  const [copied,setCopied]=useState(false);
+  const copy=()=>{navigator.clipboard.writeText(task.output||'');setCopied(true);setTimeout(()=>setCopied(false),2000)};
+  return(
+    <div className={'card '+task.type+' '+task.status}>
+      <div className="card-meta">
+        <span className={'badge '+task.type}>{task.type}</span>
+        {task.status!=='inbox'&&<span className={'badge '+task.status}>{task.status}</span>}
+        <span className="source-tag">{task.source}</span>
+        {task.createdAt&&<span style={{fontFamily:'var(--fm)',fontSize:10,color:'var(--muted)',marginLeft:'auto'}}>{timeAgo(task.createdAt)}</span>}
+        {task.pay&&<span className="pay">{task.pay}</span>}
+      </div>
+      <div className="card-title">{task.title}</div>
+      <div className={'card-desc'+(expanded?' expanded':'')} onClick={()=>setExpanded(v=>!v)}>
+        {task.description}
+        {!expanded&&task.description.length>150&&<span style={{color:'var(--amber)'}}> tap to read more</span>}
+      </div>
+      {task.status==='inbox'&&(
+        <div className="card-actions">
+          <button className="btn-ok" onClick={()=>onApprove(task.id)}>✓ APPROVE</button>
+          <button className="btn-skip" onClick={()=>onSkip(task.id)}>SKIP</button>
+          {task.url&&<a href={task.url} target="_blank" rel="noreferrer" className="btn-link">VIEW ↗</a>}
+        </div>
+      )}
+      {task.status==='approved'&&<div style={{fontFamily:'var(--fm)',fontSize:11,color:'var(--amber)'}}>⏳ Queued — bot runs every 15 min<div className="prog-bar"/></div>}
+      {task.status==='executing'&&<div style={{fontFamily:'var(--fm)',fontSize:11,color:'var(--amber)'}}>⚡ Bot executing now...<div className="prog-bar"/></div>}
+      {task.status==='done'&&task.output&&(
+        <div className="output-box">
+          <div className="output-head">
+            <span className="output-label">✓ DELIVERABLE — READY TO SEND</span>
+            <button className="copy-btn" onClick={copy}>{copied?'COPIED!':'COPY'}</button>
+          </div>
+          <div className="output-body">{task.output}</div>
+          {task.url&&<div style={{padding:'8px 12px',borderTop:'1px solid var(--border)'}}><a href={task.url} target="_blank" rel="noreferrer" style={{fontFamily:'var(--fm)',fontSize:10,color:'var(--blue)'}}>Reply to post ↗</a></div>}
+        </div>
+      )}
+      {task.status==='error'&&<div style={{fontFamily:'var(--fm)',fontSize:11,color:'var(--red)',marginTop:6}}>✗ {task.error||'Error'} — <span style={{color:'var(--amber)',cursor:'pointer'}} onClick={()=>onApprove(task.id)}>retry?</span></div>}
+    </div>
+  );
+}
+
+function App(){
+  const [tasks,setTasks]=useState(()=>store.get('tf_tasks',[]));
+  const [view,setView]=useState('inbox');
+  const [filter,setFilter]=useState('all');
+  const [loading,setLoading]=useState(false);
+  const [toast,setToast]=useState(null);
+  const [config,setConfig]=useState(()=>store.get('tf_config',{firebaseUrl:'',geminiKey:'',autoRefresh:true}));
+  const [tempConfig,setTempConfig]=useState(()=>store.get('tf_config',{firebaseUrl:'',geminiKey:'',autoRefresh:true}));
+  const [showManual,setShowManual]=useState(false);
+  const [manual,setManual]=useState({title:'',description:'',pay:'',type:'writing'});
+  const [tempFirebase,setTempFirebase]=useState('');
+  const [bannerDismissed,setBannerDismissed]=useState(()=>store.get('tf_banner_done',false));
+  const dbRef=useRef(null);
+
+  useEffect(()=>{dbRef.current=config.firebaseUrl?makeDB(config.firebaseUrl):null},[config.firebaseUrl]);
+  useEffect(()=>{store.set('tf_tasks',tasks)},[tasks]);
+
+  const showToast=useCallback((msg,type='success')=>{setToast({msg,type});setTimeout(()=>setToast(null),3500)},[]);
+
+  // Poll Firebase every 15s to get bot updates
+  useEffect(()=>{
+    if(!dbRef.current)return;
+    const poll=setInterval(async()=>{
+      try{
+        const data=await dbRef.current.get('/tasks');
+        if(!data)return;
+        setTasks(prev=>{
+          const byId=Object.fromEntries(prev.map(t=>[t.id,t]));
+          Object.entries(data).forEach(([k,v])=>{if(byId[k])byId[k]={...byId[k],...v}});
+          return Object.values(byId);
+        });
+      }catch{}
+    },15000);
+    return()=>clearInterval(poll);
+  },[config.firebaseUrl]);
+
+  const fetchTasks=useCallback(async()=>{
+    setLoading(true);
+    const existingIds=new Set(tasks.map(t=>t.redditId).filter(Boolean));
+    const results=await Promise.all(SUBS.map(s=>fetchSub(s,existingIds)));
+    const fresh=results.flat();
+    if(fresh.length>0){setTasks(prev=>[...fresh,...prev].slice(0,200));showToast('↓ '+fresh.length+' new task'+(fresh.length>1?'s':''))}
+    else showToast('No new tasks right now','warn');
+    setLoading(false);
+  },[tasks,showToast]);
+
+  useEffect(()=>{if(tasks.length===0)fetchTasks()},[]);
+  useEffect(()=>{if(!config.autoRefresh)return;const id=setInterval(fetchTasks,3*60*1000);return()=>clearInterval(id)},[config.autoRefresh,fetchTasks]);
+
+  const approveTask=useCallback(async(taskId)=>{
+    const task=tasks.find(t=>t.id===taskId);
+    if(!task)return;
+    const updated={...task,status:'approved',approvedAt:Date.now()};
+    setTasks(prev=>prev.map(t=>t.id===taskId?updated:t));
+    if(dbRef.current){
+      try{await dbRef.current.set('/tasks/'+taskId,updated);showToast('✓ Approved! Bot picks up within 15 min')}
+      catch(e){showToast('Approved locally — Firebase error: '+e.message,'warn')}
+    } else {
+      showToast('✓ Approved locally — connect Firebase for bot','warn');
+    }
+  },[tasks,showToast]);
+
+  const skipTask=useCallback(async(taskId)=>{
+    setTasks(prev=>prev.map(t=>t.id===taskId?{...t,status:'skipped'}:t));
+    if(dbRef.current)try{await dbRef.current.patch('/tasks/'+taskId,{status:'skipped'})}catch{}
+    showToast('Skipped');
+  },[]);
+
+  const addManual=()=>{
+    if(!manual.title.trim())return;
+    const t={id:uid(),title:manual.title,description:manual.description,pay:manual.pay||null,type:manual.type,source:'Manual',url:null,createdAt:Date.now()/1000,status:'inbox',fetchedAt:Date.now()};
+    setTasks(prev=>[t,...prev]);
+    if(dbRef.current)dbRef.current.set('/tasks/'+t.id,t).catch(()=>{});
+    setManual({title:'',description:'',pay:'',type:'writing'});
+    setShowManual(false);
+    showToast('Task added');
+  };
+
+  const saveSettings=()=>{store.set('tf_config',tempConfig);setConfig(tempConfig);showToast('Settings saved ✓')};
+
+  const saveBannerFirebase=()=>{
+    if(!tempFirebase.trim())return;
+    const nc={...config,firebaseUrl:tempFirebase.trim()};
+    store.set('tf_config',nc);setConfig(nc);setTempConfig(nc);
+    store.set('tf_banner_done',true);setBannerDismissed(true);
+    showToast('Firebase connected ✓');
+  };
+
+  const inbox=tasks.filter(t=>t.status==='inbox');
+  const approved=tasks.filter(t=>t.status==='approved');
+  const executing=tasks.filter(t=>t.status==='executing');
+  const done=tasks.filter(t=>t.status==='done');
+  const active=[...approved,...executing];
+  const filteredInbox=filter==='all'?inbox:inbox.filter(t=>t.type===filter);
+  const totalEarned=done.filter(t=>t.pay).reduce((s,t)=>s+parseFloat(t.pay.replace(/[^0-9.]/g,'')||0),0);
+
+  const needsBanner=!config.firebaseUrl&&!bannerDismissed;
+  const bannerH=needsBanner?198:0;
+  const topOffset=52+bannerH;
+
+  return(<>
+    <div className="topbar">
+      <div className="logo">TASK<span>FORCE</span></div>
+      <div className="top-stats">
+        <span className="pulse-dot"/>
+        <div className="stat-chip">IN <strong>{inbox.length}</strong></div>
+        <div className="stat-chip">✓ <strong>{done.length}</strong></div>
+      </div>
+    </div>
+
+    {needsBanner&&(
+      <div className="setup-banner" style={{top:52}}>
+        <div className="setup-banner-title">⚡ One-time setup — paste your Firebase URL</div>
+        <div className="setup-banner-desc">
+          This lets the bot receive your approvals automatically.<br/>
+          Your URL: <strong style={{color:'var(--amber)'}}>taskforce-2b7da-default-rtdb.firebaseio.com</strong>
+        </div>
+        <input className="setup-input"
+          placeholder="https://taskforce-2b7da-default-rtdb.firebaseio.com"
+          value={tempFirebase}
+          onChange={e=>setTempFirebase(e.target.value)}/>
+        <button className="setup-save" onClick={saveBannerFirebase}>CONNECT FIREBASE ✓</button>
+      </div>
+    )}
+
+    <div className="main" style={{top:topOffset}}>
+      {view==='inbox'&&(<>
+        <div className="filter-tabs">
+          {['all','writing','coding','research'].map(f=>(
+            <button key={f} className={'filter-tab'+(filter===f?' active':'')} onClick={()=>setFilter(f)}>{f}</button>
+          ))}
+          <button className="filter-tab" onClick={()=>setShowManual(v=>!v)}>+ add</button>
+        </div>
+
+        {showManual&&(
+          <div className="manual-wrap">
+            <div className="section-head">Add Task Manually</div>
+            <div className="field-label">Title *</div>
+            <input className="field-input" placeholder="E.g. Write 500-word blog post about crypto" value={manual.title} onChange={e=>setManual(p=>({...p,title:e.target.value}))}/>
+            <div className="field-label">Description</div>
+            <textarea className="field-input" placeholder="Full task details..." value={manual.description} onChange={e=>setManual(p=>({...p,description:e.target.value}))}/>
+            <div style={{display:'flex',gap:8}}>
+              <div style={{flex:1}}><div className="field-label">Pay</div><input className="field-input" placeholder="$25" value={manual.pay} onChange={e=>setManual(p=>({...p,pay:e.target.value}))}/></div>
+              <div style={{flex:1}}><div className="field-label">Type</div><select className="field-select" style={{marginBottom:0}} value={manual.type} onChange={e=>setManual(p=>({...p,type:e.target.value}))}><option value="writing">Writing</option><option value="coding">Coding</option><option value="research">Research</option></select></div>
+            </div>
+            <button className="btn-ok" style={{marginTop:8,width:'100%'}} onClick={addManual}>ADD TO INBOX</button>
+          </div>
+        )}
+
+        <button className="refresh-btn" onClick={fetchTasks} disabled={loading}>
+          {loading?'↻ SCANNING REDDIT...':'↻ REFRESH REDDIT NOW'}
+        </button>
+        {loading&&<div className="loading-row"><div className="spinner"/>Scanning r/forhire + r/slavelabour...</div>}
+        {filteredInbox.length===0&&!loading&&(
+          <div className="empty">
+            <div className="empty-icon">📭</div>
+            <div className="empty-title">Inbox empty</div>
+            <div style={{fontSize:13,marginTop:6,color:'var(--text2)'}}>Tap REFRESH REDDIT NOW above</div>
+          </div>
+        )}
+        {filteredInbox.map(t=><TaskCard key={t.id} task={t} onApprove={approveTask} onSkip={skipTask}/>)}
+      </>)}
+
+      {view==='active'&&(<>
+        {active.length===0?(
+          <div className="empty">
+            <div className="empty-icon">⚡</div>
+            <div className="empty-title">Nothing active</div>
+            <div style={{fontSize:13,marginTop:6,color:'var(--text2)'}}>Approved tasks appear here while the bot works</div>
+          </div>
+        ):active.map(t=><TaskCard key={t.id} task={t} onApprove={approveTask} onSkip={skipTask}/>)}
+      </>)}
+
+      {view==='done'&&(<>
+        <div className="rev-card">
+          <div>
+            <div className="rev-label">Est. Revenue</div>
+            <div className="rev-num">${totalEarned.toFixed(0)}</div>
+            <div className="rev-sub">{done.length} task{done.length!==1?'s':''} completed</div>
+          </div>
+          <div style={{textAlign:'right'}}>
+            <div className="rev-label">AI cost</div>
+            <div style={{fontFamily:'var(--fm)',fontSize:13,color:'var(--text2)',marginTop:4}}>~$0 (Gemini free)</div>
+          </div>
+        </div>
+        {done.length===0?(
+          <div className="empty">
+            <div className="empty-icon">✅</div>
+            <div className="empty-title">No completed tasks yet</div>
+          </div>
+        ):done.map(t=><TaskCard key={t.id} task={t} onApprove={approveTask} onSkip={skipTask}/>)}
+      </>)}
+
+      {view==='settings'&&(
+        <div style={{paddingBottom:20}}>
+          <div className="section-head">System Status</div>
+          <div className="sys-row"><span>Reddit scraping</span><span style={{color:'var(--green)'}}>● FREE / LIVE</span></div>
+          <div className="sys-row"><span>Firebase DB</span><span style={{color:config.firebaseUrl?'var(--green)':'var(--red)'}}>{config.firebaseUrl?'● CONNECTED':'○ NOT SET'}</span></div>
+          <div className="sys-row"><span>GitHub Actions bot</span><span style={{color:config.firebaseUrl?'var(--green)':'var(--muted)'}}>{config.firebaseUrl?'● READY TO SETUP':'○ NEEDS FIREBASE FIRST'}</span></div>
+          <div className="sys-row"><span>Gemini AI (1M free/day)</span><span style={{color:'var(--green)'}}>● FREE</span></div>
+          <div className="sys-row" style={{borderTop:'1px solid var(--amber)',paddingTop:10,marginTop:4}}><span style={{color:'var(--amber)'}}>TOTAL COST</span><span style={{color:'var(--green)',fontWeight:700}}>$0 / month</span></div>
+
+          <div className="section-head" style={{marginTop:16}}>Configuration</div>
+          <div className="field-label">Firebase Database URL</div>
+          <input className="field-input" placeholder="https://taskforce-xxx-default-rtdb.firebaseio.com" value={tempConfig.firebaseUrl} onChange={e=>setTempConfig(p=>({...p,firebaseUrl:e.target.value}))}/>
+          <div className="field-hint">Paste your Firebase URL here. Approvals write here for the bot to read.</div>
+          <div className="field-label">Gemini API Key (goes in GitHub Secrets, not here)</div>
+          <input className="field-input" placeholder="AIzaSy... — store this in GitHub Secrets instead" value={tempConfig.geminiKey} onChange={e=>setTempConfig(p=>({...p,geminiKey:e.target.value}))} style={{opacity:.7}}/>
+          <div className="field-hint">Get free key at aistudio.google.com → 1M tokens/day</div>
+          <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:14}}>
+            <input type="checkbox" id="auto" checked={tempConfig.autoRefresh} onChange={e=>setTempConfig(p=>({...p,autoRefresh:e.target.checked}))} style={{accentColor:'var(--amber)',width:16,height:16}}/>
+            <label htmlFor="auto" style={{fontSize:13,color:'var(--text2)',cursor:'pointer'}}>Auto-refresh Reddit every 3 min</label>
+          </div>
+          <button className="save-btn" onClick={saveSettings}>SAVE SETTINGS</button>
+
+          <div className="section-head" style={{marginTop:20}}>Setup Checklist</div>
+          <div style={{fontSize:13,color:'var(--text2)',lineHeight:2.1}}>
+            ✅ TASKFORCE app built<br/>
+            {config.firebaseUrl?'✅':'⬜'} Firebase URL connected<br/>
+            ⬜ Upload index.html to GitHub repo<br/>
+            ⬜ Enable GitHub Pages (free hosting)<br/>
+            ⬜ Create bot.py + run-bot.yml in same repo<br/>
+            ⬜ Add FIREBASE_URL + GEMINI_KEY to GitHub Secrets<br/>
+            ⬜ Get Gemini free API key (aistudio.google.com)<br/>
+            <br/>
+            <span style={{color:'var(--amber)'}}>Next: ask Claude "how do I upload to GitHub from my phone"</span>
+          </div>
+        </div>
+      )}
+      <div style={{height:8}}/>
+    </div>
+
+    <div className="bottom-nav">
+      <button className={'nav-btn'+(view==='inbox'?' active':'')} onClick={()=>setView('inbox')}>
+        {inbox.length>0&&<span className="nav-badge">{inbox.length}</span>}
+        <span className="nav-icon">📥</span>INBOX
+      </button>
+      <button className={'nav-btn'+(view==='active'?' active':'')} onClick={()=>setView('active')}>
+        {active.length>0&&<span className="nav-badge" style={{background:'var(--amber)'}}>{active.length}</span>}
+        <span className="nav-icon">⚡</span>ACTIVE
+      </button>
+      <button className={'nav-btn'+(view==='done'?' active':'')} onClick={()=>setView('done')}>
+        <span className="nav-icon">✅</span>DONE
+      </button>
+      <button className={'nav-btn'+(view==='settings'?' active':'')} onClick={()=>setView('settings')}>
+        <span className="nav-icon">⚙</span>SETUP
+      </button>
+    </div>
+
+    {toast&&<div className={'toast'+(toast.type==='error'?' error':toast.type==='warn'?' warn':'')}>{toast.msg}</div>}
+  </>);
+}
+
+ReactDOM.render(<App/>,document.getElementById('root'));
+</script>
+</body>
+</html>
