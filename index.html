@@ -136,26 +136,43 @@ function makeDB(url){
   }
 }
 
-const PROXY='https://api.allorigins.win/raw?url=';
+const PROXIES=[
+  'https://corsproxy.io/?',
+  'https://api.allorigins.win/raw?url=',
+  'https://api.codetabs.com/v1/proxy?quest='
+];
 const SUBS=['forhire','slavelabour'];
+
+async function fetchWithProxy(url){
+  for(const proxy of PROXIES){
+    try{
+      const r=await fetch(proxy+encodeURIComponent(url),{signal:AbortSignal.timeout(8000)});
+      if(r.ok){const d=await r.json();if(d?.data)return d;}
+    }catch(e){console.warn('Proxy failed:',proxy,e.message)}
+  }
+  // Last resort: try direct (works if Reddit allows it)
+  try{
+    const r=await fetch(url,{signal:AbortSignal.timeout(8000)});
+    if(r.ok)return await r.json();
+  }catch{}
+  return null;
+}
 
 async function fetchSub(sub,existingIds){
   try{
-    const url=encodeURIComponent('https://www.reddit.com/r/'+sub+'/new.json?limit=25&raw_json=1');
-    const r=await fetch(PROXY+url,{signal:AbortSignal.timeout(9000)});
-    if(!r.ok)throw new Error('HTTP '+r.status);
-    const data=await r.json();
+    const data=await fetchWithProxy('https://www.reddit.com/r/'+sub+'/new.json?limit=50&raw_json=1');
+    if(!data)return[];
     return (data?.data?.children||[]).map(p=>p.data)
       .filter(p=>{
         if(existingIds.has(p.id)||p.over_18)return false;
-        if(sub==='forhire'&&!(/\[h(iring)?\]|^hiring/i.test(p.title)))return false;
-        const txt=(p.title+' '+(p.selftext||'')).toLowerCase();
-        return/\b(writ|code|script|research|find|creat|build|content|copy|blog|article|data|analy)\b/.test(txt);
+        // Looser filter — accept most posts from slavelabour, only [H] from forhire
+        if(sub==='forhire'&&!(/\[h/i.test(p.title)))return false;
+        return true;
       })
       .map(p=>({
         id:p.id,redditId:p.id,
-        title:p.title.replace(/^\[(h|hiring)\]\s*/i,'').trim(),
-        description:(p.selftext||'No description.').slice(0,600),
+        title:p.title.replace(/^\[(h|hiring|for hire)\]\s*/i,'').trim(),
+        description:(p.selftext||'No description provided.').slice(0,600),
         pay:extractPay(p.title+' '+(p.selftext||'')),
         type:detectType(p.title+' '+(p.selftext||'')),
         source:'r/'+sub,url:'https://reddit.com'+p.permalink,
@@ -363,7 +380,7 @@ function App(){
           <div className="empty">
             <div className="empty-icon">📭</div>
             <div className="empty-title">Inbox empty</div>
-            <div style={{fontSize:13,marginTop:6,color:'var(--text2)'}}>Tap REFRESH REDDIT NOW above</div>
+            <div style={{fontSize:13,marginTop:6,color:'var(--text2)',lineHeight:1.8}}>Tap REFRESH REDDIT NOW above.<br/>If empty again, tap <strong style={{color:'var(--amber)'}}>+ ADD</strong> to paste a task manually.</div>
           </div>
         )}
         {filteredInbox.map(t=><TaskCard key={t.id} task={t} onApprove={approveTask} onSkip={skipTask}/>)}
