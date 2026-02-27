@@ -12,7 +12,7 @@
 :root{
   --bg:#0a0b0d;--bg2:#111318;--bg3:#181c22;
   --amber:#f0a500;--amber2:#ffc740;
-  --green:#00e5a0;--red:#ff4560;--blue:#3d9eff;--purple:#a78bfa;
+  --green:#00e5a0;--red:#ff4560;--blue:#3d9eff;
   --muted:#3a3f4a;--text:#c8cdd8;--text2:#7a8190;
   --border:#1e2330;
   --fh:'Barlow Condensed',sans-serif;
@@ -25,52 +25,53 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb)}
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:52px;background:var(--bg2);border-bottom:1px solid var(--border);position:fixed;top:0;left:0;right:0;z-index:200}
 .logo{font-family:var(--fh);font-weight:900;font-size:20px;letter-spacing:4px;color:var(--amber)}
 .logo span{color:var(--text2);font-weight:400}
-.top-stats{display:flex;gap:10px;align-items:center}
+.top-stats{display:flex;gap:8px;align-items:center}
 .stat-chip{background:var(--bg3);border:1px solid var(--border);padding:3px 8px;border-radius:3px;font-family:var(--fm);font-size:11px;color:var(--text2)}
 .stat-chip strong{color:var(--amber)}
 .pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse 2s infinite;display:inline-block}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.setup-banner{position:fixed;left:0;right:0;z-index:190;background:linear-gradient(90deg,#1a1200,#241900);border-bottom:2px solid var(--amber);padding:14px 16px}
-.setup-banner-title{font-family:var(--fh);font-size:14px;letter-spacing:2px;color:var(--amber);margin-bottom:6px;text-transform:uppercase}
-.setup-banner-desc{font-size:12px;color:var(--text2);margin-bottom:10px;line-height:1.6}
-.setup-input{width:100%;background:var(--bg3);border:1px solid var(--amber);color:var(--text);padding:8px 12px;font-family:var(--fm);font-size:12px;border-radius:3px;outline:none;margin-bottom:8px}
-.setup-save{width:100%;background:var(--amber);color:var(--bg);border:none;padding:10px;font-family:var(--fh);font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:3px}
 .main{position:fixed;left:0;right:0;bottom:56px;overflow-y:auto;padding:12px}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:var(--bg2);border-top:1px solid var(--border);display:flex;z-index:200}
-.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:none;background:transparent;color:var(--text2);font-family:var(--fh);font-size:10px;letter-spacing:1px;text-transform:uppercase;position:relative;transition:color 0.15s}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:none;background:transparent;color:var(--text2);font-family:var(--fh);font-size:10px;letter-spacing:1px;text-transform:uppercase;position:relative;transition:color .15s}
 .nav-btn.active{color:var(--amber)}
 .nav-btn.active::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:2px;background:var(--amber);border-radius:2px}
 .nav-icon{font-size:18px;line-height:1}
 .nav-badge{position:absolute;top:6px;right:calc(50% - 18px);background:var(--red);color:#fff;font-family:var(--fm);font-size:9px;padding:1px 4px;border-radius:8px;font-weight:700}
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 16px;margin-bottom:10px;position:relative;border-left:3px solid var(--muted);animation:fadeUp .25s ease;transition:border-color .15s}
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 16px;margin-bottom:10px;border-left:3px solid var(--muted);animation:fadeUp .25s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.card.writing{border-left-color:var(--blue)}
-.card.coding{border-left-color:var(--green)}
-.card.research{border-left-color:var(--amber)}
-.card.done,.card.done_flagged{border-left-color:var(--green);opacity:.9}
+.card.writing{border-left-color:var(--blue)}.card.coding{border-left-color:var(--green)}.card.research{border-left-color:var(--amber)}
+.card.done{border-left-color:var(--green)}.card.preview_ready,.card.preview_flagged{border-left-color:var(--blue)}
 .card.executing,.card.approved{border-left-color:var(--amber)}
+.card.pre_flight{border-left-color:var(--purple,#a78bfa);background:rgba(167,139,250,.04)}
 .card-meta{display:flex;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:wrap}
 .badge{font-family:var(--fh);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:2px 7px;border-radius:2px;border:1px solid currentColor}
 .badge.writing{color:var(--blue)}.badge.coding{color:var(--green)}.badge.research{color:var(--amber)}
-.badge.done{color:var(--green)}.badge.done_flagged{color:var(--amber)}
-.badge.approved,.badge.executing{color:var(--amber)}
-.badge.error{color:var(--red)}
+.badge.done{color:var(--green)}.badge.preview_ready{color:var(--blue)}.badge.preview_flagged{color:var(--amber)}
+.badge.approved,.badge.executing{color:var(--amber)}.badge.error{color:var(--red)}
+.badge.pre_flight{color:#a78bfa;border-color:#a78bfa}
 .source-tag{font-family:var(--fm);font-size:10px;color:var(--text2)}
 .pay{margin-left:auto;font-family:var(--fm);font-size:15px;font-weight:700;color:var(--green)}
 .card-title{font-family:var(--fh);font-size:17px;font-weight:600;margin-bottom:6px;line-height:1.3}
 .card-desc{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .card-desc.expanded{-webkit-line-clamp:unset}
-/* AI metadata strip */
-.ai-strip{background:rgba(61,158,255,.06);border:1px solid rgba(61,158,255,.15);border-radius:4px;padding:8px 10px;margin-bottom:10px;display:flex;flex-direction:column;gap:5px}
-.ai-row{display:flex;align-items:center;gap:6px;font-family:var(--fm);font-size:10px;color:var(--text2)}
+/* AI strip */
+.ai-strip{background:rgba(61,158,255,.06);border:1px solid rgba(61,158,255,.15);border-radius:4px;padding:8px 10px;margin-bottom:10px}
+.ai-row{display:flex;align-items:flex-start;gap:6px;font-family:var(--fm);font-size:10px;color:var(--text2);margin-bottom:3px}
+.ai-row:last-child{margin-bottom:0}
 .ai-conf{font-weight:700;font-size:12px;padding:1px 6px;border-radius:2px}
-.ai-conf.high{color:var(--green);border:1px solid var(--green)}
-.ai-conf.mid{color:var(--amber);border:1px solid var(--amber)}
-/* Quality score badge */
-.quality-badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--fm);font-size:11px;padding:2px 8px;border-radius:3px;border:1px solid}
-.quality-badge.excellent{color:var(--green);border-color:var(--green)}
-.quality-badge.good{color:var(--blue);border-color:var(--blue)}
-.quality-badge.flagged{color:var(--amber);border-color:var(--amber)}
+.ai-conf.high{color:var(--green);border:1px solid var(--green)}.ai-conf.mid{color:var(--amber);border:1px solid var(--amber)}
+/* Pre-flight panel */
+.preflight-panel{background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.3);border-radius:6px;padding:14px;margin-bottom:12px}
+.preflight-title{font-family:var(--fh);font-size:12px;letter-spacing:2px;color:#a78bfa;text-transform:uppercase;margin-bottom:8px}
+.preflight-understanding{font-size:13px;color:var(--text);line-height:1.6;margin-bottom:10px;padding:8px;background:rgba(0,0,0,.2);border-radius:3px}
+.preflight-q{font-size:11px;color:var(--amber);padding:5px 8px;background:rgba(240,165,0,.08);border-radius:3px;margin-bottom:6px}
+.notes-input{width:100%;background:var(--bg3);border:1px solid rgba(167,139,250,.4);color:var(--text);padding:8px 10px;font-family:var(--fm);font-size:12px;border-radius:3px;outline:none;resize:vertical;min-height:56px;margin-bottom:8px}
+.notes-input:focus{border-color:#a78bfa}
+.preflight-actions{display:flex;gap:8px}
+.btn-confirm{background:#a78bfa;color:#0a0b0d;border:none;padding:9px 20px;font-family:var(--fh);font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border-radius:3px;flex:1}
+.btn-confirm:hover{background:#c4b5fd}
+/* Action buttons */
 .card-actions{display:flex;gap:8px;flex-wrap:wrap}
 .btn-ok{background:var(--green);color:var(--bg);border:none;padding:9px 20px;font-family:var(--fh);font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border-radius:3px;flex:1}
 .btn-ok:hover{background:#00ffb5}
@@ -79,22 +80,31 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb)}
 .btn-link{font-family:var(--fm);font-size:10px;color:var(--blue);text-decoration:none;align-self:center;margin-left:auto}
 .prog-bar{height:3px;background:linear-gradient(90deg,var(--amber),transparent);background-size:200%;animation:shimmer 1.5s infinite;border-radius:2px;margin-top:10px}
 @keyframes shimmer{0%{background-position:100%}100%{background-position:-100%}}
+/* OUTPUT / PREVIEW BOX */
 .output-box{background:var(--bg3);border:1px solid var(--border);border-radius:4px;margin-top:12px}
-.output-head{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--border);gap:6px;flex-wrap:wrap}
+.output-head{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:6px}
 .output-label{font-family:var(--fm);font-size:10px;color:var(--green)}
+.output-label.preview{color:var(--blue)}
 .output-label.flagged{color:var(--amber)}
-.copy-btn{background:transparent;border:1px solid var(--muted);color:var(--text2);padding:3px 8px;font-family:var(--fm);font-size:10px;cursor:pointer;border-radius:2px;white-space:nowrap}
+.copy-btn{background:transparent;border:1px solid var(--muted);color:var(--text2);padding:3px 8px;font-family:var(--fm);font-size:10px;cursor:pointer;border-radius:2px}
 .copy-btn:hover{border-color:var(--green);color:var(--green)}
 .copy-btn.delivery{border-color:var(--amber);color:var(--amber)}
 .copy-btn.delivery:hover{border-color:var(--green);color:var(--green)}
 .output-body{padding:12px;font-size:12px;color:var(--text2);line-height:1.7;white-space:pre-wrap;max-height:260px;overflow-y:auto}
+/* Blur overlay for preview */
+.preview-wrap{position:relative}
+.preview-blur{position:relative;overflow:hidden}
+.preview-blur::after{content:'';position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(to bottom,transparent,var(--bg3));pointer-events:none}
+.preview-lock{margin:10px 12px;padding:12px;background:rgba(61,158,255,.06);border:1px solid rgba(61,158,255,.2);border-radius:4px;text-align:center}
+.preview-lock-text{font-family:var(--fh);font-size:12px;letter-spacing:1.5px;color:var(--blue);text-transform:uppercase;margin-bottom:6px}
+.preview-lock-sub{font-size:11px;color:var(--text2);line-height:1.5}
+/* Quality badge */
+.quality-badge{display:inline-flex;align-items:center;gap:4px;font-family:var(--fm);font-size:11px;padding:2px 7px;border-radius:3px;border:1px solid}
+.quality-badge.excellent{color:var(--green);border-color:var(--green)}
+.quality-badge.good{color:var(--blue);border-color:var(--blue)}
+.quality-badge.flagged{color:var(--amber);border-color:var(--amber)}
+/* Settings */
 .section-head{font-family:var(--fh);font-size:11px;letter-spacing:2px;color:var(--text2);text-transform:uppercase;padding:12px 0 8px;border-bottom:1px solid var(--border);margin-bottom:10px}
-.empty{text-align:center;padding:60px 20px;color:var(--text2)}
-.empty-icon{font-size:40px;margin-bottom:12px;opacity:.4}
-.empty-title{font-family:var(--fh);font-size:18px;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;color:var(--text)}
-.loading-row{display:flex;align-items:center;gap:10px;padding:14px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;margin-bottom:10px;font-family:var(--fm);font-size:11px;color:var(--text2)}
-.spinner{width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--amber);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
-@keyframes spin{to{transform:rotate(360deg)}}
 .field-label{font-family:var(--fh);font-size:10px;letter-spacing:2px;color:var(--text2);text-transform:uppercase;margin-bottom:5px}
 .field-input{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:9px 12px;font-family:var(--fm);font-size:12px;border-radius:3px;outline:none;margin-bottom:4px;transition:border-color .15s}
 .field-input:focus{border-color:var(--amber)}
@@ -102,31 +112,32 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb)}
 .field-select{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:9px 12px;font-family:var(--fm);font-size:12px;border-radius:3px;outline:none;margin-bottom:14px;appearance:none}
 .save-btn{width:100%;background:var(--amber);color:var(--bg);border:none;padding:12px;font-family:var(--fh);font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:3px;margin-top:4px}
 .save-btn:hover{background:var(--amber2)}
-.rev-card{background:var(--bg3);border:1px solid var(--amber);border-radius:6px;padding:16px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
-.rev-label{font-family:var(--fh);font-size:10px;letter-spacing:2px;color:var(--amber);text-transform:uppercase;margin-bottom:4px}
-.rev-num{font-family:var(--fm);font-size:30px;color:var(--green);font-weight:700}
-.rev-sub{font-family:var(--fm);font-size:11px;color:var(--text2)}
 .sys-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-family:var(--fm);font-size:12px}
 .sys-row:last-child{border-bottom:none}
+.tab-group{display:flex;gap:0;margin-bottom:16px;border-bottom:1px solid var(--border)}
+.tab-item{padding:8px 14px;font-family:var(--fh);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.tab-item.active{color:var(--amber);border-bottom-color:var(--amber)}
 .filter-tabs{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:2px}
 .filter-tab{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px 14px;font-family:var(--fh);font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:3px;white-space:nowrap;flex-shrink:0}
 .filter-tab.active{border-color:var(--amber);color:var(--amber);background:rgba(240,165,0,.08)}
 .refresh-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:10px 14px;font-family:var(--fh);font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:3px;width:100%;margin-bottom:10px}
 .refresh-btn:hover{border-color:var(--amber);color:var(--amber)}
 .refresh-btn:disabled{opacity:.5;cursor:not-allowed}
+.rev-card{background:var(--bg3);border:1px solid var(--amber);border-radius:6px;padding:16px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.rev-label{font-family:var(--fh);font-size:10px;letter-spacing:2px;color:var(--amber);text-transform:uppercase;margin-bottom:4px}
+.rev-num{font-family:var(--fm);font-size:30px;color:var(--green);font-weight:700}
+.rev-sub{font-family:var(--fm);font-size:11px;color:var(--text2)}
+.loading-row{display:flex;align-items:center;gap:10px;padding:14px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;margin-bottom:10px;font-family:var(--fm);font-size:11px;color:var(--text2)}
+.spinner{width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--amber);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:60px 20px;color:var(--text2)}
+.empty-icon{font-size:40px;margin-bottom:12px;opacity:.4}
+.empty-title{font-family:var(--fh);font-size:18px;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;color:var(--text)}
 .toast{position:fixed;bottom:68px;left:12px;right:12px;background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--green);padding:12px 14px;font-family:var(--fm);font-size:12px;border-radius:4px;z-index:999;animation:fadeUp .25s ease}
-.toast.error{border-left-color:var(--red)}
-.toast.warn{border-left-color:var(--amber)}
+.toast.error{border-left-color:var(--red)}.toast.warn{border-left-color:var(--amber)}
 .manual-wrap{background:var(--bg3);border:1px dashed var(--muted);border-radius:6px;padding:16px;margin-bottom:12px}
 textarea.field-input{resize:vertical;min-height:80px}
-/* Tabs inside settings */
-.tab-group{display:flex;gap:0;margin-bottom:16px;border-bottom:1px solid var(--border)}
-.tab-item{padding:8px 16px;font-family:var(--fh);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
-.tab-item.active{color:var(--amber);border-bottom-color:var(--amber)}
-/* Payment method badge */
-.pay-method{display:inline-flex;align-items:center;gap:5px;background:rgba(0,229,160,.08);border:1px solid rgba(0,229,160,.25);color:var(--green);padding:4px 10px;border-radius:3px;font-family:var(--fm);font-size:11px;margin-bottom:10px}
-::-webkit-scrollbar{width:3px;height:3px}
-::-webkit-scrollbar-thumb{background:var(--muted);border-radius:2px}
+::-webkit-scrollbar{width:3px;height:3px}::-webkit-scrollbar-thumb{background:var(--muted);border-radius:2px}
 </style>
 </head>
 <body>
@@ -140,88 +151,58 @@ const store = {
 };
 function uid(){return Math.random().toString(36).slice(2)+Date.now().toString(36)}
 function timeAgo(ts){const s=Math.floor((Date.now()/1000)-ts);if(s<60)return s+'s ago';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';return Math.floor(s/86400)+'d ago'}
-function detectType(t){const s=t.toLowerCase();if(/\b(code|script|python|javascript|js|html|css|api|bot|develop|bug|fix|app|program)\b/.test(s))return'coding';if(/\b(research|find|gather|data|list|report|analy|summariz|survey|compil)\b/.test(s))return'research';return'writing'}
-function extractPay(t){const m=t.match(/\$\s*(\d+(?:[,\d]*)?(?:\.\d+)?)/gi);if(!m)return null;const vals=m.map(x=>parseFloat(x.replace(/[^\d.]/g,''))).filter(x=>x>0&&x<50000);return vals.length?'$'+Math.max(...vals):null}
 
 function makeDB(url){
   const base=url.replace(/\/$/,'');
-  async function req(path,opts={}){const r=await fetch(base+path+'.json',{...opts,signal:AbortSignal.timeout(8000)});if(!r.ok)throw new Error('Firebase '+r.status);return r.json()}
+  async function req(path,opts={}){const r=await fetch(base+path+'.json',{...opts,signal:AbortSignal.timeout(8000)});if(!r.ok)throw new Error('FB '+r.status);return r.json()}
   return{
     get:p=>req(p),
     set:(p,d)=>req(p,{method:'PUT',body:JSON.stringify(d),headers:{'Content-Type':'application/json'}}),
     patch:(p,d)=>req(p,{method:'PATCH',body:JSON.stringify(d),headers:{'Content-Type':'application/json'}}),
-    del:p=>req(p,{method:'DELETE'})
   }
 }
 
-const PROXIES=[
-  'https://corsproxy.io/?',
-  'https://api.allorigins.win/raw?url=',
-  'https://api.codetabs.com/v1/proxy?quest='
-];
-const SUBS=['forhire','slavelabour'];
+// Build full delivery message with preview + payment instructions
+function buildPreviewMessage(task, payment) {
+  const preview = task.previewText || (task.output||'').split(' ').slice(0,200).join(' ');
+  const payBlock = buildPaymentBlock(payment, task.paymentUrl);
+  const wordsNote = task.previewWords ? `[Showing ${task.previewWords}]` : '[Preview — first ~200 words]';
 
-async function fetchWithProxy(url){
-  for(const proxy of PROXIES){
-    try{
-      const r=await fetch(proxy+encodeURIComponent(url),{signal:AbortSignal.timeout(8000)});
-      if(r.ok){const d=await r.json();if(d?.data)return d;}
-    }catch(e){console.warn('Proxy failed:',proxy,e.message)}
-  }
-  try{const r=await fetch(url,{signal:AbortSignal.timeout(8000)});if(r.ok)return await r.json();}catch{}
-  return null;
+  return `Hi! Here's a preview of the completed work for your request. Once payment is confirmed I'll send the full document right away.
+
+━━━ PREVIEW ${wordsNote} ━━━
+
+${preview}
+
+[...full work continues — ${(task.output||'').split(' ').length} words total...]
+
+━━━━━━━━━━━━━━━━━━━━━━━
+
+To receive the full work, please complete payment:
+
+${payBlock}
+
+Once I see the payment I'll reply with the complete deliverable immediately. Let me know if you have any questions!`;
 }
 
-async function fetchSub(sub,existingIds){
-  try{
-    const data=await fetchWithProxy('https://www.reddit.com/r/'+sub+'/new.json?limit=50&raw_json=1');
-    if(!data)return[];
-    return (data?.data?.children||[]).map(p=>p.data)
-      .filter(p=>{
-        if(existingIds.has(p.id)||p.over_18)return false;
-        if(sub==='forhire'&&!(/\[h/i.test(p.title)))return false;
-        return true;
-      })
-      .map(p=>({
-        id:p.id,redditId:p.id,
-        title:p.title.replace(/^\[(h|hiring|for hire)\]\s*/i,'').trim(),
-        description:(p.selftext||'No description provided.').slice(0,600),
-        pay:extractPay(p.title+' '+(p.selftext||'')),
-        type:detectType(p.title+' '+(p.selftext||'')),
-        source:'r/'+sub,url:'https://reddit.com'+p.permalink,
-        createdAt:p.created_utc,status:'inbox',fetchedAt:Date.now()
-      }));
-  }catch(e){console.warn('r/'+sub+':',e.message);return[]}
-}
-
-// ──────────────────────────────────────────────
-// Generates the message you paste to the Reddit client
-// Contains: brief acknowledgment + work + payment instructions
-// ──────────────────────────────────────────────
-function buildDeliveryMessage(task, payment){
-  const payBlock = buildPaymentBlock(payment);
-  return `Hi! Here's the completed work for your request:\n\n---\n\n${task.output||''}\n\n---\n\n**To send payment:**\n${payBlock}\n\nLet me know if you'd like any adjustments. Once payment is confirmed I'll mark this complete. Thank you!`;
-}
-
-function buildPaymentBlock(payment){
-  if(!payment) return 'Please reply to arrange payment.';
+function buildPaymentBlock(payment, invoiceUrl='') {
+  if (!payment) return 'Please reply to arrange payment.';
   const method = payment.preferredMethod || 'paypal';
   const lines = [];
-  if(method==='paypal'&&payment.paypal){
-    lines.push(`💸 **PayPal:** ${payment.paypal}`);
-    lines.push(`Please use "Friends & Family" to avoid fees.`);
-  } else if(method==='bank'&&payment.bankAccount){
-    lines.push(`🏦 **Bank Transfer (Israel):**`);
-    if(payment.bankName) lines.push(`Bank: ${payment.bankName}`);
-    if(payment.bankBranch) lines.push(`Branch: ${payment.bankBranch}`);
-    lines.push(`Account: ${payment.bankAccount}`);
-    if(payment.bankIBAN) lines.push(`IBAN: ${payment.bankIBAN}`);
-  } else if(method==='bit'&&payment.bit){
-    lines.push(`📱 **Bit:** ${payment.bit}`);
-  } else if(method==='wise'&&payment.wise){
-    lines.push(`💳 **Wise:** ${payment.wise}`);
-  } else if(payment.paypal){
-    lines.push(`💸 **PayPal:** ${payment.paypal}`);
+  if (invoiceUrl) {
+    lines.push(`📄 PayPal Invoice (click to pay securely): ${invoiceUrl}`);
+    lines.push(`   Accepted: PayPal, credit card, debit card`);
+  } else if (method==='paypal' && payment.paypal) {
+    lines.push(`💸 PayPal: ${payment.paypal} (send as Friends & Family to avoid fees)`);
+  } else if (method==='bit' && payment.bit) {
+    lines.push(`📱 Bit: ${payment.bit}`);
+  } else if (method==='wise' && payment.wise) {
+    lines.push(`💳 Wise: ${payment.wise}`);
+  } else if (method==='bank' && payment.bankAccount) {
+    lines.push(`🏦 Bank: ${payment.bankName||''} Branch ${payment.bankBranch||''} Account ${payment.bankAccount}`);
+    if (payment.bankIBAN) lines.push(`   IBAN: ${payment.bankIBAN}`);
+  } else if (payment.paypal) {
+    lines.push(`💸 PayPal: ${payment.paypal}`);
   } else {
     lines.push(`Please reply to arrange payment.`);
   }
@@ -231,59 +212,102 @@ function buildPaymentBlock(payment){
 function QualityBadge({score}){
   if(!score) return null;
   const cls = score>=85?'excellent':score>=75?'good':'flagged';
-  const icon = score>=85?'★':score>=75?'✓':'!';
-  return <span className={`quality-badge ${cls}`}>{icon} {score}/100</span>;
+  return <span className={`quality-badge ${cls}`}>{score>=85?'★':score>=75?'✓':'!'} {score}/100</span>;
 }
 
-function AIStrip({task}){
-  if(!task.aiConfidence&&!task.aiUnderstoodAs) return null;
-  const conf = task.aiConfidence||0;
-  const confCls = conf>=85?'high':'mid';
-  return(
-    <div className="ai-strip">
-      <div className="ai-row">
-        <span className={`ai-conf ${confCls}`}>{conf}%</span>
-        <span>AI confidence in completing this task</span>
+// ─────────────────────────────────────────
+// PRE-FLIGHT CARD — shown before you approve
+// ─────────────────────────────────────────
+function PreFlightCard({task, onConfirm, onSkip}) {
+  const [notes, setNotes] = useState('');
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <div className={'card '+task.type+' pre_flight'}>
+      <div className="card-meta">
+        <span className="badge pre_flight">🔍 pre-flight</span>
+        <span className={'badge '+task.type}>{task.type}</span>
+        <span className="source-tag">{task.source}</span>
+        {task.createdAt&&<span style={{fontFamily:'var(--fm)',fontSize:10,color:'var(--muted)',marginLeft:'auto'}}>{timeAgo(task.createdAt)}</span>}
+        {task.pay&&<span className="pay">{task.pay}</span>}
       </div>
-      {task.aiUnderstoodAs&&(
-        <div className="ai-row" style={{color:'var(--text)',lineHeight:1.4}}>
-          <span style={{color:'var(--blue)',flexShrink:0}}>→</span>
-          <span>{task.aiUnderstoodAs}</span>
+      <div className="card-title">{task.title}</div>
+
+      <div className={'card-desc'+(expanded?' expanded':'')} onClick={()=>setExpanded(v=>!v)}>
+        {task.description}
+        {!expanded&&task.description?.length>150&&<span style={{color:'var(--amber)'}}> tap to read more</span>}
+      </div>
+
+      <div className="preflight-panel">
+        <div className="preflight-title">🤖 AI Understanding — Confirm Before Execution</div>
+        <div className="preflight-understanding">
+          "{task.aiUnderstoodAs || 'AI will complete this task as described.'}"
+          <div style={{marginTop:6,display:'flex',gap:10,flexWrap:'wrap'}}>
+            <span style={{fontFamily:'var(--fm)',fontSize:10,color:'var(--green)'}}>{task.aiConfidence}% confidence</span>
+            <span style={{fontFamily:'var(--fm)',fontSize:10,color:'var(--text2)'}}>{task.aiStepsCount||'?'} steps · {task.aiComplexity||'medium'}</span>
+          </div>
         </div>
-      )}
-      {task.aiComplexity&&(
-        <div className="ai-row">
-          <span style={{color:'var(--muted)'}}>complexity:</span>
-          <span style={{color:'var(--amber)'}}>{task.aiComplexity}</span>
-          {task.aiStepsCount>0&&<span style={{color:'var(--muted)'}}>{task.aiStepsCount} steps mapped</span>}
+
+        {task.clarifyingQuestions?.length > 0 && (
+          <div style={{marginBottom:10}}>
+            <div style={{fontFamily:'var(--fh)',fontSize:10,letterSpacing:'2px',color:'var(--amber)',textTransform:'uppercase',marginBottom:6}}>
+              Questions for client (check post or DM them):
+            </div>
+            {task.clarifyingQuestions.map((q,i)=>(
+              <div key={i} className="preflight-q">❓ {q}</div>
+            ))}
+          </div>
+        )}
+
+        <div style={{fontFamily:'var(--fh)',fontSize:10,letterSpacing:'2px',color:'var(--text2)',textTransform:'uppercase',marginBottom:5}}>
+          Any extra specs or notes for the AI? (optional)
         </div>
-      )}
+        <textarea
+          className="notes-input"
+          placeholder={`e.g. "Make it more casual", "Focus on section 3", "Client is in the US"...`}
+          value={notes}
+          onChange={e=>setNotes(e.target.value)}
+        />
+        <div className="preflight-actions">
+          <button className="btn-confirm" onClick={()=>onConfirm(task.id, notes)}>
+            ✓ LOOKS GOOD — EXECUTE
+          </button>
+          <button className="btn-skip" onClick={()=>onSkip(task.id)}>SKIP</button>
+          {task.url&&<a href={task.url} target="_blank" rel="noreferrer" className="btn-link">VIEW ↗</a>}
+        </div>
+      </div>
     </div>
   );
 }
 
-function TaskCard({task,onApprove,onSkip,onMarkPaid,payment}){
-  const [expanded,setExpanded]=useState(false);
-  const [copied,setCopied]=useState('');
+// ─────────────────────────────────────────
+// TASK CARD — for approved/executing/done
+// ─────────────────────────────────────────
+function TaskCard({task, onSkip, onMarkPaid, payment}) {
+  const [copied, setCopied] = useState('');
+  const [expanded, setExpanded] = useState(false);
 
-  const copyRaw=()=>{
-    navigator.clipboard.writeText(task.output||'');
-    setCopied('raw');setTimeout(()=>setCopied(''),2000);
-  };
-  const copyDelivery=()=>{
-    const msg=buildDeliveryMessage(task,payment);
+  const isPreviewReady = task.status==='preview_ready'||task.status==='preview_flagged';
+  const isDone = task.status==='done';
+  const isFlagged = task.status==='preview_flagged'||task.status==='done_flagged';
+
+  const copyPreview = () => {
+    const msg = buildPreviewMessage(task, payment);
     navigator.clipboard.writeText(msg);
-    setCopied('delivery');setTimeout(()=>setCopied(''),2000);
+    setCopied('preview'); setTimeout(()=>setCopied(''), 2000);
+  };
+  const copyFull = () => {
+    navigator.clipboard.writeText(task.output||'');
+    setCopied('full'); setTimeout(()=>setCopied(''), 2000);
   };
 
-  const isFlagged = task.status==='done_flagged';
-  const isDone = task.status==='done'||isFlagged;
-
-  return(
+  return (
     <div className={'card '+task.type+' '+task.status}>
       <div className="card-meta">
         <span className={'badge '+task.type}>{task.type}</span>
-        {task.status!=='inbox'&&<span className={'badge '+task.status}>{isFlagged?'⚠ review':task.status}</span>}
+        <span className={'badge '+task.status}>
+          {task.status==='preview_ready'?'preview':task.status==='preview_flagged'?'⚠ preview':task.status}
+        </span>
         <span className="source-tag">{task.source}</span>
         {task.createdAt&&<span style={{fontFamily:'var(--fm)',fontSize:10,color:'var(--muted)',marginLeft:'auto'}}>{timeAgo(task.createdAt)}</span>}
         {task.pay&&<span className="pay">{task.pay}</span>}
@@ -291,25 +315,20 @@ function TaskCard({task,onApprove,onSkip,onMarkPaid,payment}){
 
       <div className="card-title">{task.title}</div>
 
-      {/* AI metadata — shown on inbox cards */}
-      {task.status==='inbox'&&<AIStrip task={task}/>}
-
       <div className={'card-desc'+(expanded?' expanded':'')} onClick={()=>setExpanded(v=>!v)}>
         {task.description}
-        {!expanded&&task.description.length>150&&<span style={{color:'var(--amber)'}}> tap to read more</span>}
+        {!expanded&&task.description?.length>150&&<span style={{color:'var(--amber)'}}> tap to read more</span>}
       </div>
 
-      {task.status==='inbox'&&(
-        <div className="card-actions">
-          <button className="btn-ok" onClick={()=>onApprove(task.id)}>✓ APPROVE</button>
-          <button className="btn-skip" onClick={()=>onSkip(task.id)}>SKIP</button>
-          {task.url&&<a href={task.url} target="_blank" rel="noreferrer" className="btn-link">VIEW ↗</a>}
+      {task.clientNotes&&(
+        <div style={{fontFamily:'var(--fm)',fontSize:11,color:'var(--amber)',marginBottom:8,padding:'5px 8px',background:'rgba(240,165,0,.06)',borderRadius:3}}>
+          📝 Notes: {task.clientNotes}
         </div>
       )}
 
-      {task.status==='approved'&&(
+      {(task.status==='approved')&&(
         <div style={{fontFamily:'var(--fm)',fontSize:11,color:'var(--amber)'}}>
-          ⏳ Queued — bot executes within 15 min
+          ⏳ Queued — bot picks up within 15 min
           <div className="prog-bar"/>
         </div>
       )}
@@ -320,37 +339,61 @@ function TaskCard({task,onApprove,onSkip,onMarkPaid,payment}){
         </div>
       )}
 
-      {isDone&&task.output&&(
+      {/* PREVIEW READY STATE */}
+      {isPreviewReady && (
         <div className="output-box">
           <div className="output-head">
             <div style={{display:'flex',alignItems:'center',gap:8,flexWrap:'wrap'}}>
-              <span className={'output-label'+(isFlagged?' flagged':'')}>
-                {isFlagged?'⚠ REVIEW BEFORE SENDING':'✓ READY TO SEND'}
-              </span>
+              <span className={'output-label preview'}>👁 PREVIEW READY — AWAITING PAYMENT</span>
               {task.qualityScore&&<QualityBadge score={task.qualityScore}/>}
             </div>
-            <div style={{display:'flex',gap:6}}>
-              <button className="copy-btn" onClick={copyRaw}>
-                {copied==='raw'?'COPIED!':'WORK ONLY'}
-              </button>
-              <button className="copy-btn delivery" onClick={copyDelivery}>
-                {copied==='delivery'?'✓ COPIED!':'📋 COPY + PAYMENT'}
-              </button>
-            </div>
           </div>
-          {isFlagged&&task.qualityIssues&&task.qualityIssues.length>0&&(
-            <div style={{padding:'8px 12px',background:'rgba(240,165,0,.06)',borderBottom:'1px solid var(--border)',fontSize:11,color:'var(--amber)',lineHeight:1.6}}>
-              ⚠ Issues: {task.qualityIssues.slice(0,2).join(' · ')}
+          {isFlagged&&task.qualityIssues?.length>0&&(
+            <div style={{padding:'6px 12px',background:'rgba(240,165,0,.06)',borderBottom:'1px solid var(--border)',fontSize:11,color:'var(--amber)'}}>
+              ⚠ {task.qualityIssues.slice(0,2).join(' · ')}
             </div>
           )}
-          <div className="output-body">{task.output}</div>
+          {/* Blurred preview */}
+          <div className="preview-wrap">
+            <div className="preview-blur">
+              <div className="output-body" style={{maxHeight:120,overflow:'hidden'}}>
+                {task.previewText || (task.output||'').split(' ').slice(0,200).join(' ')}
+              </div>
+            </div>
+            <div className="preview-lock">
+              <div className="preview-lock-text">🔒 {task.previewWords || 'Preview only'}</div>
+              <div className="preview-lock-sub">Full work released after payment confirmed</div>
+              {task.paymentUrl&&(
+                <a href={task.paymentUrl} target="_blank" rel="noreferrer"
+                   style={{display:'block',marginTop:8,color:'var(--blue)',fontFamily:'var(--fm)',fontSize:11,textDecoration:'underline'}}>
+                  View PayPal invoice ↗
+                </a>
+              )}
+            </div>
+          </div>
           <div style={{padding:'10px 12px',borderTop:'1px solid var(--border)',display:'flex',gap:8,flexWrap:'wrap',alignItems:'center'}}>
-            {task.url&&<a href={task.url} target="_blank" rel="noreferrer" style={{fontFamily:'var(--fm)',fontSize:10,color:'var(--blue)'}}>Reply to post ↗</a>}
-            {!task.paid&&(
-              <button onClick={()=>onMarkPaid(task.id)} style={{marginLeft:'auto',background:'transparent',border:'1px solid var(--green)',color:'var(--green)',padding:'4px 10px',fontFamily:'var(--fm)',fontSize:10,cursor:'pointer',borderRadius:2}}>
-                MARK PAID 💰
-              </button>
-            )}
+            <button className="copy-btn delivery" onClick={copyPreview}>
+              {copied==='preview'?'✓ COPIED!':'📋 COPY PREVIEW MESSAGE'}
+            </button>
+            {task.url&&<a href={task.url} target="_blank" rel="noreferrer" style={{fontFamily:'var(--fm)',fontSize:10,color:'var(--blue)',marginLeft:'auto'}}>Reply ↗</a>}
+          </div>
+        </div>
+      )}
+
+      {/* DONE STATE (payment confirmed, full work released) */}
+      {isDone && task.output && (
+        <div className="output-box">
+          <div className="output-head">
+            <div style={{display:'flex',alignItems:'center',gap:8}}>
+              <span className="output-label">✓ PAID — FULL WORK</span>
+              {task.qualityScore&&<QualityBadge score={task.qualityScore}/>}
+            </div>
+            <button className="copy-btn" onClick={copyFull}>{copied==='full'?'COPIED!':'COPY'}</button>
+          </div>
+          <div className="output-body">{task.output}</div>
+          <div style={{padding:'10px 12px',borderTop:'1px solid var(--border)',display:'flex',gap:8,alignItems:'center'}}>
+            {task.url&&<a href={task.url} target="_blank" rel="noreferrer" style={{fontFamily:'var(--fm)',fontSize:10,color:'var(--blue)'}}>Reply ↗</a>}
+            {!task.paid&&<button onClick={()=>onMarkPaid(task.id)} style={{marginLeft:'auto',background:'transparent',border:'1px solid var(--green)',color:'var(--green)',padding:'4px 10px',fontFamily:'var(--fm)',fontSize:10,cursor:'pointer',borderRadius:2}}>MARK PAID 💰</button>}
             {task.paid&&<span style={{marginLeft:'auto',fontFamily:'var(--fm)',fontSize:10,color:'var(--green)'}}>💰 PAID {task.paidAmount?'— '+task.paidAmount:''}</span>}
           </div>
         </div>
@@ -358,72 +401,81 @@ function TaskCard({task,onApprove,onSkip,onMarkPaid,payment}){
 
       {task.status==='error'&&(
         <div style={{fontFamily:'var(--fm)',fontSize:11,color:'var(--red)',marginTop:6}}>
-          ✗ {task.error||'Pipeline error'} — <span style={{color:'var(--amber)',cursor:'pointer'}} onClick={()=>onApprove(task.id)}>retry?</span>
+          ✗ {task.error||'Pipeline error'}
         </div>
       )}
     </div>
   );
 }
 
-// ──────────────────────────────────────────────
-// PAYMENT SETTINGS PANEL
-// ──────────────────────────────────────────────
-function PaymentSettings({payment,onChange,onSave}){
-  const methods=[
-    {id:'paypal',label:'PayPal'},
-    {id:'bit',label:'Bit (ביט)'},
-    {id:'bank',label:'Bank Transfer (Israel)'},
-    {id:'wise',label:'Wise'},
-  ];
+// Payment block builder (settings preview)
+function buildPaymentPreview(payment) {
+  return buildPaymentBlock(payment, '');
+}
+function buildPaymentBlock(payment, invoiceUrl='') {
+  if (!payment) return 'Please reply to arrange payment.';
+  const method = payment.preferredMethod || 'paypal';
+  const lines = [];
+  if (invoiceUrl) {
+    lines.push(`📄 PayPal Invoice: ${invoiceUrl}`);
+  } else if (method==='paypal' && payment.paypal) {
+    lines.push(`💸 PayPal: ${payment.paypal} (Friends & Family)`);
+  } else if (method==='bit' && payment.bit) {
+    lines.push(`📱 Bit: ${payment.bit}`);
+  } else if (method==='wise' && payment.wise) {
+    lines.push(`💳 Wise: ${payment.wise}`);
+  } else if (method==='bank' && payment.bankAccount) {
+    lines.push(`🏦 Bank: ${payment.bankName||''} ${payment.bankBranch||''} / ${payment.bankAccount}`);
+  } else {
+    lines.push('Please reply to arrange payment.');
+  }
+  return lines.join('\n');
+}
+
+// ─────────────────────────────────────────
+// PAYMENT SETTINGS
+// ─────────────────────────────────────────
+function PaymentSettings({payment, onChange, onSave}){
   return(
     <div>
       <div className="section-head">💳 Payment Details</div>
       <p style={{fontSize:12,color:'var(--text2)',marginBottom:14,lineHeight:1.7}}>
-        Enter your payment info once. The dashboard auto-generates a payment message to copy into your Reddit reply when a task is done.
+        Enter once. Auto-included in every preview message sent to clients.
       </p>
-
       <div className="field-label">Preferred Method</div>
       <select className="field-select" value={payment.preferredMethod||'paypal'} onChange={e=>onChange({...payment,preferredMethod:e.target.value})}>
-        {methods.map(m=><option key={m.id} value={m.id}>{m.label}</option>)}
+        <option value="paypal">PayPal (auto-invoice if API configured)</option>
+        <option value="bit">Bit (ביט)</option>
+        <option value="wise">Wise</option>
+        <option value="bank">Bank Transfer (Israel)</option>
       </select>
-
       <div className="field-label">PayPal Email</div>
       <input className="field-input" placeholder="you@example.com" value={payment.paypal||''} onChange={e=>onChange({...payment,paypal:e.target.value})}/>
-      <div className="field-hint">Clients outside Israel use this most</div>
-
-      <div className="field-label">Bit Phone Number (ביט)</div>
+      <div className="field-hint">Used as fallback if PayPal API isn't configured. Go to paypal.com/il to sign up free.</div>
+      <div className="field-label">Bit Number (ביט)</div>
       <input className="field-input" placeholder="05X-XXXXXXX" value={payment.bit||''} onChange={e=>onChange({...payment,bit:e.target.value})}/>
-      <div className="field-hint">For Israeli clients — instant transfer</div>
-
-      <div className="field-label">Wise Email or Username</div>
-      <input className="field-input" placeholder="@yourhandle or email" value={payment.wise||''} onChange={e=>onChange({...payment,wise:e.target.value})}/>
-      <div className="field-hint">For international clients who don't have PayPal</div>
-
+      <div className="field-hint">For Israeli clients</div>
+      <div className="field-label">Wise Email</div>
+      <input className="field-input" placeholder="@handle or email" value={payment.wise||''} onChange={e=>onChange({...payment,wise:e.target.value})}/>
       <div style={{background:'rgba(240,165,0,.06)',border:'1px solid rgba(240,165,0,.2)',borderRadius:4,padding:'10px 12px',marginBottom:14}}>
-        <div style={{fontFamily:'var(--fh)',fontSize:11,letterSpacing:'2px',color:'var(--amber)',marginBottom:8,textTransform:'uppercase'}}>🏦 Bank Transfer (Israel)</div>
-        <div className="field-label" style={{marginBottom:3}}>Bank Name</div>
-        <input className="field-input" placeholder="e.g. Hapoalim / Leumi / Discount" value={payment.bankName||''} onChange={e=>onChange({...payment,bankName:e.target.value})} style={{marginBottom:6}}/>
-        <div className="field-label" style={{marginBottom:3}}>Branch Number</div>
-        <input className="field-input" placeholder="e.g. 712" value={payment.bankBranch||''} onChange={e=>onChange({...payment,bankBranch:e.target.value})} style={{marginBottom:6}}/>
-        <div className="field-label" style={{marginBottom:3}}>Account Number</div>
-        <input className="field-input" placeholder="e.g. 123456" value={payment.bankAccount||''} onChange={e=>onChange({...payment,bankAccount:e.target.value})} style={{marginBottom:6}}/>
-        <div className="field-label" style={{marginBottom:3}}>IBAN (optional)</div>
-        <input className="field-input" placeholder="IL..." value={payment.bankIBAN||''} onChange={e=>onChange({...payment,bankIBAN:e.target.value})} style={{marginBottom:0}}/>
+        <div style={{fontFamily:'var(--fh)',fontSize:11,letterSpacing:'2px',color:'var(--amber)',marginBottom:8,textTransform:'uppercase'}}>🏦 Israeli Bank Transfer</div>
+        <input className="field-input" placeholder="Bank name (Hapoalim / Leumi...)" value={payment.bankName||''} onChange={e=>onChange({...payment,bankName:e.target.value})} style={{marginBottom:6}}/>
+        <input className="field-input" placeholder="Branch number" value={payment.bankBranch||''} onChange={e=>onChange({...payment,bankBranch:e.target.value})} style={{marginBottom:6}}/>
+        <input className="field-input" placeholder="Account number" value={payment.bankAccount||''} onChange={e=>onChange({...payment,bankAccount:e.target.value})} style={{marginBottom:6}}/>
+        <input className="field-input" placeholder="IBAN (IL...)" value={payment.bankIBAN||''} onChange={e=>onChange({...payment,bankIBAN:e.target.value})} style={{marginBottom:0}}/>
       </div>
-
       <button className="save-btn" onClick={onSave}>SAVE PAYMENT INFO</button>
-
       <div style={{marginTop:14,padding:'10px 12px',background:'rgba(0,229,160,.04)',border:'1px solid rgba(0,229,160,.15)',borderRadius:4,fontSize:11,color:'var(--text2)',lineHeight:1.7}}>
-        <span style={{color:'var(--green)',fontFamily:'var(--fh)',letterSpacing:'1px'}}>PREVIEW — what clients receive:</span><br/>
-        <span style={{whiteSpace:'pre-wrap',fontSize:10,marginTop:6,display:'block'}}>{buildPaymentBlock(payment)}</span>
+        <span style={{color:'var(--green)',fontFamily:'var(--fh)',letterSpacing:'1px'}}>PREVIEW:</span>
+        <span style={{whiteSpace:'pre-wrap',fontSize:10,marginTop:6,display:'block'}}>{buildPaymentPreview(payment)}</span>
       </div>
     </div>
   );
 }
 
-// ──────────────────────────────────────────────
+// ─────────────────────────────────────────
 // MAIN APP
-// ──────────────────────────────────────────────
+// ─────────────────────────────────────────
 function App(){
   const [tasks,setTasks]=useState(()=>store.get('tf_tasks',[]));
   const [view,setView]=useState('inbox');
@@ -435,10 +487,6 @@ function App(){
   const [tempConfig,setTempConfig]=useState(()=>store.get('tf_config',{firebaseUrl:'',autoRefresh:true}));
   const [payment,setPayment]=useState(()=>store.get('tf_payment',{preferredMethod:'paypal',paypal:'',bit:'',wise:'',bankName:'',bankBranch:'',bankAccount:'',bankIBAN:''}));
   const [tempPayment,setTempPayment]=useState(()=>store.get('tf_payment',{preferredMethod:'paypal',paypal:'',bit:'',wise:'',bankName:'',bankBranch:'',bankAccount:'',bankIBAN:''}));
-  const [showManual,setShowManual]=useState(false);
-  const [manual,setManual]=useState({title:'',description:'',pay:'',type:'writing'});
-  const [tempFirebase,setTempFirebase]=useState('');
-  const [bannerDismissed,setBannerDismissed]=useState(()=>store.get('tf_banner_done',false));
   const dbRef=useRef(null);
 
   useEffect(()=>{dbRef.current=config.firebaseUrl?makeDB(config.firebaseUrl):null},[config.firebaseUrl]);
@@ -446,16 +494,16 @@ function App(){
 
   const showToast=useCallback((msg,type='success')=>{setToast({msg,type});setTimeout(()=>setToast(null),3500)},[]);
 
-  // Poll Firebase every 15s
+  // Poll Firebase for updates every 15s
   useEffect(()=>{
-    if(!dbRef.current)return;
+    if(!dbRef.current) return;
     const poll=setInterval(async()=>{
       try{
         const data=await dbRef.current.get('/tasks');
-        if(!data)return;
+        if(!data) return;
         setTasks(prev=>{
           const byId=Object.fromEntries(prev.map(t=>[t.id,t]));
-          Object.entries(data).forEach(([k,v])=>{if(byId[k])byId[k]={...byId[k],...v}});
+          Object.entries(data).forEach(([k,v])=>{if(v&&typeof v==='object') byId[k]={...(byId[k]||{}), ...v}});
           return Object.values(byId);
         });
       }catch{}
@@ -463,160 +511,110 @@ function App(){
     return()=>clearInterval(poll);
   },[config.firebaseUrl]);
 
-  const fetchTasks=useCallback(async()=>{
-    setLoading(true);
-    const existingIds=new Set(tasks.map(t=>t.redditId).filter(Boolean));
-    const results=await Promise.all(SUBS.map(s=>fetchSub(s,existingIds)));
-    const fresh=results.flat();
-    if(fresh.length>0){setTasks(prev=>[...fresh,...prev].slice(0,200));showToast('↓ '+fresh.length+' new task'+(fresh.length>1?'s':''))}
-    else showToast('No new tasks right now','warn');
-    setLoading(false);
-  },[tasks,showToast]);
-
-  useEffect(()=>{if(tasks.length===0)fetchTasks()},[]);
-  useEffect(()=>{if(!config.autoRefresh)return;const id=setInterval(fetchTasks,3*60*1000);return()=>clearInterval(id)},[config.autoRefresh,fetchTasks]);
-
-  const approveTask=useCallback(async(taskId)=>{
-    const task=tasks.find(t=>t.id===taskId);
-    if(!task)return;
-    const updated={...task,status:'approved',approvedAt:Date.now()};
+  // Confirm pre-flight — sets status to 'approved' with optional client notes
+  const confirmPreFlight = useCallback(async(taskId, notes) => {
+    const task = tasks.find(t=>t.id===taskId);
+    if(!task) return;
+    const updated = {...task, status:'approved', approvedAt:Date.now(), clientNotes: notes || ''};
     setTasks(prev=>prev.map(t=>t.id===taskId?updated:t));
     if(dbRef.current){
-      try{await dbRef.current.set('/tasks/'+taskId,updated);showToast('✓ Approved! Bot picks up within 15 min')}
-      catch(e){showToast('Approved locally — Firebase error: '+e.message,'warn')}
+      try{
+        await dbRef.current.patch('/tasks/'+taskId, {status:'approved', approvedAt:Date.now(), clientNotes: notes||''});
+        showToast('✓ Confirmed! Bot executes within 15 min');
+      }catch(e){showToast('Confirmed locally — Firebase error','warn')}
     } else {
-      showToast('✓ Approved locally — connect Firebase for bot','warn');
+      showToast('✓ Confirmed (connect Firebase for bot)','warn');
     }
   },[tasks,showToast]);
 
-  const skipTask=useCallback(async(taskId)=>{
+  const skipTask = useCallback(async(taskId) => {
     setTasks(prev=>prev.map(t=>t.id===taskId?{...t,status:'skipped'}:t));
-    if(dbRef.current)try{await dbRef.current.patch('/tasks/'+taskId,{status:'skipped'})}catch{}
+    if(dbRef.current) try{await dbRef.current.patch('/tasks/'+taskId,{status:'skipped'})}catch{}
     showToast('Skipped');
   },[]);
 
-  const addManual=()=>{
-    if(!manual.title.trim())return;
-    const t={id:uid(),title:manual.title,description:manual.description,pay:manual.pay||null,type:manual.type,source:'Manual',url:null,createdAt:Date.now()/1000,status:'inbox',fetchedAt:Date.now()};
-    setTasks(prev=>[t,...prev]);
-    if(dbRef.current)dbRef.current.set('/tasks/'+t.id,t).catch(()=>{});
-    setManual({title:'',description:'',pay:'',type:'writing'});
-    setShowManual(false);
-    showToast('Task added');
-  };
-
-  const markPaid=useCallback(async(taskId)=>{
-    const task=tasks.find(t=>t.id===taskId);
-    if(!task)return;
-    const amount=task.pay||'';
-    const updated={...task,paid:true,paidAmount:amount,paidAt:Date.now()};
+  const markPaid = useCallback(async(taskId) => {
+    const task = tasks.find(t=>t.id===taskId);
+    if(!task) return;
+    const amount = task.pay||'';
+    const updated = {...task, paid:true, paidAmount:amount, paidAt:Date.now()};
     setTasks(prev=>prev.map(t=>t.id===taskId?updated:t));
-    if(dbRef.current)try{await dbRef.current.patch('/tasks/'+taskId,{paid:true,paidAmount:amount,paidAt:Date.now()})}catch{}
+    if(dbRef.current) try{await dbRef.current.patch('/tasks/'+taskId,{paid:true,paidAmount:amount,paidAt:Date.now()})}catch{}
     showToast('💰 Marked as paid!');
   },[tasks,showToast]);
 
-  const saveSettings=()=>{
-    const nc={...tempConfig};
-    store.set('tf_config',nc);setConfig(nc);
+  const saveSettings = () => {
+    store.set('tf_config',tempConfig); setConfig(tempConfig);
     showToast('Settings saved ✓');
   };
-
-  const savePayment=()=>{
-    store.set('tf_payment',tempPayment);setPayment(tempPayment);
+  const savePayment = () => {
+    store.set('tf_payment',tempPayment); setPayment(tempPayment);
     showToast('Payment info saved ✓');
   };
 
-  const saveBannerFirebase=()=>{
-    if(!tempFirebase.trim())return;
-    const nc={...config,firebaseUrl:tempFirebase.trim()};
-    store.set('tf_config',nc);setConfig(nc);setTempConfig(nc);
-    store.set('tf_banner_done',true);setBannerDismissed(true);
-    showToast('Firebase connected ✓');
-  };
+  // Task buckets
+  const preFlight    = tasks.filter(t=>t.status==='pre_flight');
+  const approved     = tasks.filter(t=>t.status==='approved');
+  const executing    = tasks.filter(t=>t.status==='executing');
+  const previewReady = tasks.filter(t=>t.status==='preview_ready'||t.status==='preview_flagged');
+  const done         = tasks.filter(t=>t.status==='done'||t.status==='done_flagged');
+  const active       = [...approved,...executing,...previewReady];
 
-  const inbox=tasks.filter(t=>t.status==='inbox');
-  const approved=tasks.filter(t=>t.status==='approved');
-  const executing=tasks.filter(t=>t.status==='executing');
-  const done=tasks.filter(t=>t.status==='done'||t.status==='done_flagged');
-  const active=[...approved,...executing];
-  const filteredInbox=filter==='all'?inbox:inbox.filter(t=>t.type===filter);
-  const totalEarned=done.filter(t=>t.pay).reduce((s,t)=>s+parseFloat(t.pay.replace(/[^0-9.]/g,'')||0),0);
-
-  const needsBanner=!config.firebaseUrl&&!bannerDismissed;
-  const bannerH=needsBanner?198:0;
-  const topOffset=52+bannerH;
+  const inboxTasks = filter==='all'?preFlight:preFlight.filter(t=>t.type===filter);
+  const totalEarned = done.filter(t=>t.pay).reduce((s,t)=>s+parseFloat(t.pay.replace(/[^0-9.]/g,'')||0),0);
 
   return(<>
     <div className="topbar">
       <div className="logo">TASK<span>FORCE</span></div>
       <div className="top-stats">
         <span className="pulse-dot"/>
-        <div className="stat-chip">IN <strong>{inbox.length}</strong></div>
+        <div className="stat-chip">✈ <strong>{preFlight.length}</strong></div>
+        <div className="stat-chip">⚡ <strong>{active.length}</strong></div>
         <div className="stat-chip">✓ <strong>{done.length}</strong></div>
       </div>
     </div>
 
-    {needsBanner&&(
-      <div className="setup-banner" style={{top:52}}>
-        <div className="setup-banner-title">⚡ One-time setup — paste your Firebase URL</div>
-        <div className="setup-banner-desc">
-          Lets the bot receive your approvals and push completed work.<br/>
-          Your URL: <strong style={{color:'var(--amber)'}}>taskforce-2b7da-default-rtdb.firebaseio.com</strong>
-        </div>
-        <input className="setup-input" placeholder="https://taskforce-2b7da-default-rtdb.firebaseio.com" value={tempFirebase} onChange={e=>setTempFirebase(e.target.value)}/>
-        <button className="setup-save" onClick={saveBannerFirebase}>CONNECT FIREBASE ✓</button>
+    {!config.firebaseUrl&&(
+      <div style={{position:'fixed',top:52,left:0,right:0,zIndex:190,background:'linear-gradient(90deg,#1a1200,#241900)',borderBottom:'2px solid var(--amber)',padding:'14px 16px'}}>
+        <div style={{fontFamily:'var(--fh)',fontSize:14,letterSpacing:'2px',color:'var(--amber)',marginBottom:6,textTransform:'uppercase'}}>⚡ Connect Firebase to activate bot</div>
+        <input style={{width:'100%',background:'var(--bg3)',border:'1px solid var(--amber)',color:'var(--text)',padding:'8px 12px',fontFamily:'var(--fm)',fontSize:12,borderRadius:3,outline:'none',marginBottom:8}} placeholder="https://taskforce-2b7da-default-rtdb.firebaseio.com" onBlur={e=>{if(e.target.value.trim()){const nc={...config,firebaseUrl:e.target.value.trim()};store.set('tf_config',nc);setConfig(nc);setTempConfig(nc);showToast('Firebase connected ✓')}}}/>
       </div>
     )}
 
-    <div className="main" style={{top:topOffset}}>
+    <div className="main" style={{top:config.firebaseUrl?52:142}}>
 
-      {/* ── INBOX ── */}
+      {/* ── INBOX (pre-flight cards) ── */}
       {view==='inbox'&&(<>
         <div className="filter-tabs">
           {['all','writing','coding','research'].map(f=>(
             <button key={f} className={'filter-tab'+(filter===f?' active':'')} onClick={()=>setFilter(f)}>{f}</button>
           ))}
-          <button className="filter-tab" onClick={()=>setShowManual(v=>!v)}>+ add</button>
         </div>
 
-        {showManual&&(
-          <div className="manual-wrap">
-            <div className="section-head">Add Task Manually</div>
-            <div className="field-label">Title *</div>
-            <input className="field-input" placeholder="E.g. Write 500-word blog post about crypto" value={manual.title} onChange={e=>setManual(p=>({...p,title:e.target.value}))}/>
-            <div className="field-label">Description</div>
-            <textarea className="field-input" placeholder="Full task details..." value={manual.description} onChange={e=>setManual(p=>({...p,description:e.target.value}))}/>
-            <div style={{display:'flex',gap:8}}>
-              <div style={{flex:1}}><div className="field-label">Pay</div><input className="field-input" placeholder="$25" value={manual.pay} onChange={e=>setManual(p=>({...p,pay:e.target.value}))}/></div>
-              <div style={{flex:1}}><div className="field-label">Type</div><select className="field-select" style={{marginBottom:0}} value={manual.type} onChange={e=>setManual(p=>({...p,type:e.target.value}))}><option value="writing">Writing</option><option value="coding">Coding</option><option value="research">Research</option></select></div>
-            </div>
-            <button className="btn-ok" style={{marginTop:8,width:'100%'}} onClick={addManual}>ADD TO INBOX</button>
-          </div>
-        )}
-
-        <button className="refresh-btn" onClick={fetchTasks} disabled={loading}>
-          {loading?'↻ SCANNING REDDIT...':'↻ REFRESH REDDIT NOW'}
-        </button>
-        {loading&&<div className="loading-row"><div className="spinner"/>Scanning r/forhire + r/slavelabour...</div>}
-        {filteredInbox.length===0&&!loading&&(
+        {inboxTasks.length===0&&(
           <div className="empty">
             <div className="empty-icon">📭</div>
             <div className="empty-title">Inbox empty</div>
-            <div style={{fontSize:13,marginTop:6,color:'var(--text2)',lineHeight:1.8}}>Tap REFRESH above, or use <strong style={{color:'var(--amber)'}}>+ ADD</strong> to paste a task manually.</div>
+            <div style={{fontSize:13,marginTop:6,color:'var(--text2)',lineHeight:1.8}}>
+              Bot runs every 15 min and sends AI-verified tasks here.<br/>
+              Each card shows what the AI understood before you approve.
+            </div>
           </div>
         )}
-        {filteredInbox.map(t=><TaskCard key={t.id} task={t} onApprove={approveTask} onSkip={skipTask} payment={payment}/>)}
+        {inboxTasks.map(t=>(
+          <PreFlightCard key={t.id} task={t} onConfirm={confirmPreFlight} onSkip={skipTask}/>
+        ))}
       </>)}
 
-      {/* ── ACTIVE ── */}
+      {/* ── ACTIVE (approved/executing/preview) ── */}
       {view==='active'&&(<>
         {active.length===0?(
           <div className="empty">
             <div className="empty-icon">⚡</div>
             <div className="empty-title">Nothing active</div>
-            <div style={{fontSize:13,marginTop:6,color:'var(--text2)'}}>Approved tasks appear here while the 6-agent pipeline runs</div>
+            <div style={{fontSize:13,marginTop:6,color:'var(--text2)'}}>Confirmed tasks appear here while the pipeline runs</div>
           </div>
-        ):active.map(t=><TaskCard key={t.id} task={t} onApprove={approveTask} onSkip={skipTask} payment={payment}/>)}
+        ):active.map(t=><TaskCard key={t.id} task={t} onSkip={skipTask} onMarkPaid={markPaid} payment={payment}/>)}
       </>)}
 
       {/* ── DONE ── */}
@@ -640,14 +638,14 @@ function App(){
             <div className="empty-icon">✅</div>
             <div className="empty-title">No completed tasks yet</div>
           </div>
-        ):done.map(t=><TaskCard key={t.id} task={t} onApprove={approveTask} onSkip={skipTask} onMarkPaid={markPaid} payment={payment}/>)}
+        ):done.map(t=><TaskCard key={t.id} task={t} onSkip={skipTask} onMarkPaid={markPaid} payment={payment}/>)}
       </>)}
 
       {/* ── SETTINGS ── */}
       {view==='settings'&&(
         <div style={{paddingBottom:20}}>
           <div className="tab-group">
-            {[{id:'system',label:'System'},{id:'payment',label:'💳 Payment'},{id:'legal',label:'⚖ Legal'}].map(t=>(
+            {[{id:'system',label:'System'},{id:'payment',label:'💳 Payment'},{id:'paypal_api',label:'⚡ PayPal API'},{id:'legal',label:'⚖ Legal'}].map(t=>(
               <div key={t.id} className={'tab-item'+(settingsTab===t.id?' active':'')} onClick={()=>setSettingsTab(t.id)}>{t.label}</div>
             ))}
           </div>
@@ -655,10 +653,10 @@ function App(){
           {settingsTab==='system'&&(
             <div>
               <div className="section-head">System Status</div>
-              <div className="sys-row"><span>Reddit RSS fetching</span><span style={{color:'var(--green)'}}>● FREE / LIVE</span></div>
+              <div className="sys-row"><span>Reddit RSS</span><span style={{color:'var(--green)'}}>● FREE / LIVE</span></div>
               <div className="sys-row"><span>Firebase DB</span><span style={{color:config.firebaseUrl?'var(--green)':'var(--red)'}}>{config.firebaseUrl?'● CONNECTED':'○ NOT SET'}</span></div>
-              <div className="sys-row"><span>6-Agent AI pipeline</span><span style={{color:'var(--green)'}}>● READY</span></div>
-              <div className="sys-row"><span>Gemini 2.5 Flash</span><span style={{color:'var(--green)'}}>● FREE TIER</span></div>
+              <div className="sys-row"><span>6-Agent pipeline</span><span style={{color:'var(--green)'}}>● READY</span></div>
+              <div className="sys-row"><span>Gemini 2.5 Flash</span><span style={{color:'var(--green)'}}>● FREE</span></div>
               <div className="sys-row" style={{borderTop:'1px solid var(--amber)',paddingTop:10,marginTop:4}}>
                 <span style={{color:'var(--amber)'}}>TOTAL MONTHLY COST</span>
                 <span style={{color:'var(--green)',fontWeight:700}}>$0</span>
@@ -666,80 +664,106 @@ function App(){
               <div className="section-head" style={{marginTop:16}}>Configuration</div>
               <div className="field-label">Firebase Database URL</div>
               <input className="field-input" placeholder="https://taskforce-xxx-default-rtdb.firebaseio.com" value={tempConfig.firebaseUrl||''} onChange={e=>setTempConfig(p=>({...p,firebaseUrl:e.target.value}))}/>
-              <div className="field-hint">Paste your Firebase URL — approvals write here, bot reads from here</div>
+              <div className="field-hint">Approvals write here, bot reads from here</div>
               <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:14}}>
                 <input type="checkbox" id="auto" checked={tempConfig.autoRefresh||false} onChange={e=>setTempConfig(p=>({...p,autoRefresh:e.target.checked}))} style={{accentColor:'var(--amber)',width:16,height:16}}/>
-                <label htmlFor="auto" style={{fontSize:13,color:'var(--text2)',cursor:'pointer'}}>Auto-refresh Reddit every 3 min</label>
+                <label htmlFor="auto" style={{fontSize:13,color:'var(--text2)',cursor:'pointer'}}>Auto-refresh every 3 min</label>
               </div>
               <button className="save-btn" onClick={saveSettings}>SAVE SETTINGS</button>
             </div>
           )}
 
-          {settingsTab==='payment'&&(
-            <PaymentSettings payment={tempPayment} onChange={setTempPayment} onSave={savePayment}/>
+          {settingsTab==='payment'&&<PaymentSettings payment={tempPayment} onChange={setTempPayment} onSave={savePayment}/>}
+
+          {settingsTab==='paypal_api'&&(
+            <div>
+              <div className="section-head">⚡ PayPal Auto-Invoicing Setup</div>
+              <p style={{fontSize:12,color:'var(--text2)',marginBottom:14,lineHeight:1.8}}>
+                This creates a real PayPal invoice automatically for each completed task. Client receives a payment link; you get the money directly to your PayPal. Then n8n detects the payment and releases the full work automatically.
+              </p>
+              <div style={{background:'rgba(61,158,255,.06)',border:'1px solid rgba(61,158,255,.2)',borderRadius:4,padding:'12px',marginBottom:16}}>
+                <div style={{fontFamily:'var(--fh)',fontSize:11,letterSpacing:'2px',color:'var(--blue)',textTransform:'uppercase',marginBottom:10}}>Step 1 — Upgrade to Business Account</div>
+                <div style={{fontSize:12,color:'var(--text2)',lineHeight:1.8}}>
+                  Go to <strong style={{color:'var(--text)'}}>paypal.com/il</strong> → Settings → Upgrade to Business (free). You keep the same email and balance.
+                </div>
+              </div>
+              <div style={{background:'rgba(61,158,255,.06)',border:'1px solid rgba(61,158,255,.2)',borderRadius:4,padding:'12px',marginBottom:16}}>
+                <div style={{fontFamily:'var(--fh)',fontSize:11,letterSpacing:'2px',color:'var(--blue)',textTransform:'uppercase',marginBottom:10}}>Step 2 — Get API Credentials</div>
+                <div style={{fontSize:12,color:'var(--text2)',lineHeight:1.8}}>
+                  1. Go to <strong style={{color:'var(--text)'}}>developer.paypal.com</strong><br/>
+                  2. Log in with your PayPal account<br/>
+                  3. Apps & Credentials → Create App → name it "taskforce"<br/>
+                  4. Switch from Sandbox to <strong style={{color:'var(--amber)'}}>Live</strong><br/>
+                  5. Copy <strong style={{color:'var(--text)'}}>Client ID</strong> and <strong style={{color:'var(--text)'}}>Client Secret</strong>
+                </div>
+              </div>
+              <div style={{background:'rgba(61,158,255,.06)',border:'1px solid rgba(61,158,255,.2)',borderRadius:4,padding:'12px',marginBottom:16}}>
+                <div style={{fontFamily:'var(--fh)',fontSize:11,letterSpacing:'2px',color:'var(--blue)',textTransform:'uppercase',marginBottom:10}}>Step 3 — Add to GitHub Secrets</div>
+                <div style={{fontSize:12,color:'var(--text2)',lineHeight:1.8}}>
+                  Go to your <strong style={{color:'var(--amber)'}}>private</strong> GitHub repo (taskforce-bot) → Settings → Secrets:<br/><br/>
+                  <code style={{fontFamily:'var(--fm)',fontSize:11,background:'var(--bg)',padding:'2px 6px',borderRadius:2}}>PAYPAL_CLIENT_ID</code> → paste your Client ID<br/>
+                  <code style={{fontFamily:'var(--fm)',fontSize:11,background:'var(--bg)',padding:'2px 6px',borderRadius:2}}>PAYPAL_CLIENT_SECRET</code> → paste your Secret<br/>
+                  <code style={{fontFamily:'var(--fm)',fontSize:11,background:'var(--bg)',padding:'2px 6px',borderRadius:2}}>PAYPAL_EMAIL</code> → your PayPal email<br/>
+                  <code style={{fontFamily:'var(--fm)',fontSize:11,background:'var(--bg)',padding:'2px 6px',borderRadius:2}}>PAYPAL_LIVE</code> → <code style={{fontFamily:'var(--fm)',fontSize:11}}>true</code>
+                </div>
+              </div>
+              <div style={{background:'rgba(0,229,160,.05)',border:'1px solid rgba(0,229,160,.2)',borderRadius:4,padding:'12px',marginBottom:16}}>
+                <div style={{fontFamily:'var(--fh)',fontSize:11,letterSpacing:'2px',color:'var(--green)',textTransform:'uppercase',marginBottom:10}}>Step 4 — n8n Auto-Payment Detection</div>
+                <div style={{fontSize:12,color:'var(--text2)',lineHeight:1.8}}>
+                  In n8n (nadav9.app.n8n.cloud):<br/>
+                  1. New workflow → Schedule trigger every 5 min<br/>
+                  2. HTTP Request → GET <code style={{fontFamily:'var(--fm)',fontSize:11}}>https://api-m.paypal.com/v2/invoicing/invoices?status=PAID</code><br/>
+                  3. Credentials: OAuth2 with your Client ID + Secret<br/>
+                  4. For each paid invoice → Firebase PATCH → <code style={{fontFamily:'var(--fm)',fontSize:11}}>/tasks/{'{'}invoiceId{'}'}</code> → <code style={{fontFamily:'var(--fm)',fontSize:11}}>{'{'}status: "paid"{'}'}</code><br/>
+                  5. Next bot run → Release pipeline detects 'paid' → sets 'done'<br/><br/>
+                  <span style={{color:'var(--green)'}}>Result: client pays → 5 min later → full work appears in their Reddit DM automatically.</span>
+                </div>
+              </div>
+              <div style={{fontSize:11,color:'var(--muted)',lineHeight:1.6}}>
+                Note: PayPal credentials are stored only in GitHub Secrets (never visible in code or the dashboard). Even if someone reads bot.py they cannot access your PayPal.
+              </div>
+            </div>
           )}
 
           {settingsTab==='legal'&&(
             <div>
-              <div className="section-head">⚖ Legal Checklist</div>
+              <div className="section-head">⚖ Legal Reference</div>
               <div style={{fontSize:12,color:'var(--text2)',lineHeight:2.0}}>
-                <div style={{color:'var(--amber)',fontFamily:'var(--fh)',fontSize:12,letterSpacing:'1.5px',marginBottom:6,textTransform:'uppercase'}}>🇮🇱 Israel — Business Registration</div>
+                <div style={{color:'var(--amber)',fontFamily:'var(--fh)',fontSize:12,letterSpacing:'1.5px',marginBottom:6,textTransform:'uppercase'}}>🇮🇱 Must-do: Register as Atzmai</div>
                 <div style={{lineHeight:1.8,marginBottom:12}}>
-                  All freelance income in Israel must be declared, even occasional gig work. You have two options:
-                  <br/>• <strong style={{color:'var(--text)'}}>Osek Patur</strong> — up to ₪120,000/year, no VAT needed, simpler reporting
-                  <br/>• <strong style={{color:'var(--text)'}}>Osek Murshe</strong> — above threshold, must charge 18% VAT on invoices
-                  <br/><br/>
-                  Register at your local <strong style={{color:'var(--amber)'}}>Misrad HaKlita / Mas Hachnasa</strong> office. Also register with <strong style={{color:'var(--amber)'}}>Bituach Leumi</strong> (National Insurance).
+                  All freelance income in Israel must be declared. Under ₪120,000/year: register as <strong style={{color:'var(--text)'}}>Osek Patur</strong> (no VAT, file once/year). Go to your local Mas Hachnasa office. Also register with Bituach Leumi.
                 </div>
-
-                <div style={{color:'var(--amber)',fontFamily:'var(--fh)',fontSize:12,letterSpacing:'1.5px',marginBottom:6,textTransform:'uppercase'}}>📄 Do you need to disclose AI use?</div>
+                <div style={{color:'var(--amber)',fontFamily:'var(--fh)',fontSize:12,letterSpacing:'1.5px',marginBottom:6,textTransform:'uppercase'}}>📄 AI Disclosure</div>
                 <div style={{lineHeight:1.8,marginBottom:12}}>
-                  <strong style={{color:'var(--green)'}}>No Israeli law requires this.</strong> There is also no Reddit rule requiring AI disclosure on r/slavelabour or r/forhire. Using AI as a tool to complete freelance work is legal and common practice — like using spell-check or a template. However:
-                  <br/>• If a client explicitly asks "did you write this yourself?" — answer honestly
-                  <br/>• If a client's brief says "no AI" — respect that and skip the task
-                  <br/>• Never claim false credentials (e.g. "certified translator") unless true
+                  No law in Israel requires it. No Reddit rule requires it. If a client asks "did you write this?" — answer honestly. If a post says "no AI" — skip it (the evaluator flags this).
                 </div>
-
-                <div style={{color:'var(--amber)',fontFamily:'var(--fh)',fontSize:12,letterSpacing:'1.5px',marginBottom:6,textTransform:'uppercase'}}>💸 International Payments & Tax</div>
+                <div style={{color:'var(--amber)',fontFamily:'var(--fh)',fontSize:12,letterSpacing:'1.5px',marginBottom:6,textTransform:'uppercase'}}>💸 PayPal / International Income</div>
                 <div style={{lineHeight:1.8,marginBottom:12}}>
-                  PayPal/Wise income from foreign clients must be reported to the Israeli Tax Authority. Israel has an <strong style={{color:'var(--text)'}}>obligation to report all worldwide income</strong>. Exchange rate on receipt date is used. Keep records of all transactions.
+                  Report all PayPal/Wise income to Israeli Tax Authority. Exchange rate on receipt date applies. Keep records of every transaction.
                 </div>
-
-                <div style={{color:'var(--amber)',fontFamily:'var(--fh)',fontSize:12,letterSpacing:'1.5px',marginBottom:6,textTransform:'uppercase'}}>🔒 Reddit RSS & Terms of Service</div>
-                <div style={{lineHeight:1.8,marginBottom:12}}>
-                  Reading public Reddit posts via RSS is legal — RSS is a public feed Reddit provides intentionally. However:
-                  <br/>• Reddit sued Anthropic in 2025 over training data — this does <em>not</em> affect reading public posts
-                  <br/>• Your bot reads RSS, not scrapes aggressively — this is fine
-                  <br/>• Do not spam clients or send automated DMs — this violates Reddit TOS
-                  <br/>• You manually review and respond to each task, which is fully compliant
-                </div>
-
-                <div style={{color:'var(--amber)',fontFamily:'var(--fh)',fontSize:12,letterSpacing:'1.5px',marginBottom:6,textTransform:'uppercase'}}>✅ Clean Practices</div>
+                <div style={{color:'var(--amber)',fontFamily:'var(--fh)',fontSize:12,letterSpacing:'1.5px',marginBottom:6,textTransform:'uppercase'}}>✅ What's clean about this system</div>
                 <div style={{lineHeight:1.8}}>
-                  ✓ You review every task before approval — not fully automated spam<br/>
-                  ✓ You deliver actual completed work — not fraud<br/>
-                  ✓ Client can ask for revisions — fair service relationship<br/>
-                  ✓ Only accepting tasks AI can genuinely complete well<br/>
-                  ✗ Avoid tasks that require certifications you don't have<br/>
-                  ✗ Avoid legal/medical advice tasks (professional liability)<br/>
-                  ✗ Skip tasks where client explicitly says "no AI"
+                  ✓ You manually confirm every task before execution<br/>
+                  ✓ Client sees a preview before paying — transparent<br/>
+                  ✓ You deliver real completed work<br/>
+                  ✓ Reddit RSS reading is publicly provided by Reddit<br/>
+                  ✗ Skip tasks marked "no AI" in the brief<br/>
+                  ✗ Skip legal/medical advice tasks
                 </div>
               </div>
-
-              <div style={{marginTop:16,padding:'12px',background:'rgba(0,229,160,.05)',border:'1px solid rgba(0,229,160,.2)',borderRadius:4,fontSize:11,color:'var(--text2)',lineHeight:1.7}}>
-                <span style={{color:'var(--green)'}}>Note:</span> This is general information, not legal advice. For your specific situation, consult an Israeli accountant (רואה חשבון) — especially before exceeding ₪50,000/year in freelance income.
+              <div style={{marginTop:12,padding:'10px',background:'rgba(0,229,160,.04)',border:'1px solid rgba(0,229,160,.15)',borderRadius:4,fontSize:11,color:'var(--text2)',lineHeight:1.7}}>
+                This is general info, not legal advice. For your specific situation, consult an Israeli accountant (רואה חשבון).
               </div>
             </div>
           )}
         </div>
       )}
-
       <div style={{height:8}}/>
     </div>
 
     <div className="bottom-nav">
       <button className={'nav-btn'+(view==='inbox'?' active':'')} onClick={()=>setView('inbox')}>
-        {inbox.length>0&&<span className="nav-badge">{inbox.length}</span>}
+        {preFlight.length>0&&<span className="nav-badge">{preFlight.length}</span>}
         <span className="nav-icon">📥</span>INBOX
       </button>
       <button className={'nav-btn'+(view==='active'?' active':'')} onClick={()=>setView('active')}>
