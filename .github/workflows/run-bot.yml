@@ -17,3 +17,5 @@ jobs:
         env:
           FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
           GEMINI_KEY: ${{ secrets.GEMINI_KEY }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_PASS: ${{ secrets.GMAIL_PASS }}
