@@ -181,7 +181,7 @@ async function fetchSub(sub,existingIds){
   }catch(e){console.warn('r/'+sub+':',e.message);return[]}
 }
 
-function TaskCard({task,onApprove,onSkip}){
+function TaskCard({task,onApprove,onSkip,onMarkPaid}){
   const [expanded,setExpanded]=useState(false);
   const [copied,setCopied]=useState(false);
   const copy=()=>{navigator.clipboard.writeText(task.output||'');setCopied(true);setTimeout(()=>setCopied(false),2000)};
@@ -215,7 +215,11 @@ function TaskCard({task,onApprove,onSkip}){
             <button className="copy-btn" onClick={copy}>{copied?'COPIED!':'COPY'}</button>
           </div>
           <div className="output-body">{task.output}</div>
-          {task.url&&<div style={{padding:'8px 12px',borderTop:'1px solid var(--border)'}}><a href={task.url} target="_blank" rel="noreferrer" style={{fontFamily:'var(--fm)',fontSize:10,color:'var(--blue)'}}>Reply to post ↗</a></div>}
+          <div style={{padding:'10px 12px',borderTop:'1px solid var(--border)',display:'flex',gap:8,flexWrap:'wrap',alignItems:'center'}}>
+            {task.url&&<a href={task.url} target="_blank" rel="noreferrer" style={{fontFamily:'var(--fm)',fontSize:10,color:'var(--blue)'}}>Reply to post ↗</a>}
+            {!task.paid&&<button onClick={()=>onMarkPaid(task.id)} style={{marginLeft:'auto',background:'transparent',border:'1px solid var(--green)',color:'var(--green)',padding:'4px 10px',fontFamily:'var(--fm)',fontSize:10,cursor:'pointer',borderRadius:2}}>MARK PAID 💰</button>}
+            {task.paid&&<span style={{marginLeft:'auto',fontFamily:'var(--fm)',fontSize:10,color:'var(--green)'}}>💰 PAID {task.paidAmount?'— '+task.paidAmount:''}</span>}
+          </div>
         </div>
       )}
       {task.status==='error'&&<div style={{fontFamily:'var(--fm)',fontSize:11,color:'var(--red)',marginTop:6}}>✗ {task.error||'Error'} — <span style={{color:'var(--amber)',cursor:'pointer'}} onClick={()=>onApprove(task.id)}>retry?</span></div>}
@@ -301,7 +305,15 @@ function App(){
     showToast('Task added');
   };
 
-  const saveSettings=()=>{store.set('tf_config',tempConfig);setConfig(tempConfig);showToast('Settings saved ✓')};
+  const markPaid=useCallback(async(taskId)=>{
+    const task=tasks.find(t=>t.id===taskId);
+    if(!task)return;
+    const amount=task.pay||'';
+    const updated={...task,paid:true,paidAmount:amount,paidAt:Date.now()};
+    setTasks(prev=>prev.map(t=>t.id===taskId?updated:t));
+    if(dbRef.current)try{await dbRef.current.patch('/tasks/'+taskId,{paid:true,paidAmount:amount,paidAt:Date.now()})}catch{}
+    showToast('💰 Marked as paid! Great work!');
+  },[tasks,showToast]);
 
   const saveBannerFirebase=()=>{
     if(!tempFirebase.trim())return;
@@ -404,8 +416,11 @@ function App(){
             <div className="rev-sub">{done.length} task{done.length!==1?'s':''} completed</div>
           </div>
           <div style={{textAlign:'right'}}>
-            <div className="rev-label">AI cost</div>
-            <div style={{fontFamily:'var(--fm)',fontSize:13,color:'var(--text2)',marginTop:4}}>~$0 (Gemini free)</div>
+            <div className="rev-label">Confirmed Paid</div>
+            <div style={{fontFamily:'var(--fm)',fontSize:20,color:'var(--green)',fontWeight:700,marginTop:4}}>
+              ${done.filter(t=>t.paid).reduce((s,t)=>s+parseFloat((t.paidAmount||'0').replace(/[^0-9.]/g,'')||0),0).toFixed(0)}
+            </div>
+            <div style={{fontFamily:'var(--fm)',fontSize:11,color:'var(--text2)'}}>{done.filter(t=>t.paid).length} paid</div>
           </div>
         </div>
         {done.length===0?(
@@ -413,7 +428,7 @@ function App(){
             <div className="empty-icon">✅</div>
             <div className="empty-title">No completed tasks yet</div>
           </div>
-        ):done.map(t=><TaskCard key={t.id} task={t} onApprove={approveTask} onSkip={skipTask}/>)}
+        ):done.map(t=><TaskCard key={t.id} task={t} onApprove={approveTask} onSkip={skipTask} onMarkPaid={markPaid}/>)}
       </>)}
 
       {view==='settings'&&(
