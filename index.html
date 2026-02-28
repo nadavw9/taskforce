@@ -474,10 +474,238 @@ function PaymentSettings({payment, onChange, onSave}){
 }
 
 // ─────────────────────────────────────────
+// ─────────────────────────────────────────
+// B2B LEAD ENRICHMENT VIEW COMPONENT
+// ─────────────────────────────────────────
+function B2BView({leads, onApprove, onReject, onAddLead}){
+  const [tab,setTab]=React.useState('review');
+  const [form,setForm]=React.useState({company:'',domain:'',contact_name:'',contact_email:''});
+  const [submitting,setSubmitting]=React.useState(false);
+  const [expandedLead,setExpandedLead]=React.useState(null);
+
+  const reviewLeads  = leads.filter(l=>l.status==='b2b_review');
+  const approvedLeads = leads.filter(l=>l.status==='b2b_approved');
+  const sentLeads    = leads.filter(l=>l.status==='b2b_sent');
+  const pendingLeads = leads.filter(l=>l.status==='new'||l.status==='researching');
+  const archivedLeads = leads.filter(l=>['low_score','b2b_rejected','error','b2b_no_email'].includes(l.status));
+
+  const scoreColor=(s)=>s>=8?'var(--green)':s>=6?'var(--amber)':'var(--text3)';
+
+  const handleAddLead=async(e)=>{
+    e.preventDefault();
+    if(!form.company) return;
+    setSubmitting(true);
+    await onAddLead(form.company, form.domain, form.contact_name, form.contact_email);
+    setForm({company:'',domain:'',contact_name:'',contact_email:''});
+    setSubmitting(false);
+    setTab('pending');
+  };
+
+  return (
+    <div>
+      <div style={{marginBottom:16}}>
+        <div style={{color:'var(--amber)',fontFamily:'var(--fh)',fontSize:12,letterSpacing:2,marginBottom:4}}>B2B LEAD ENRICHMENT</div>
+        <div style={{color:'var(--text2)',fontSize:12}}>Gemini researches leads → scores ICP fit → drafts cold emails → you approve → bot sends</div>
+        <div style={{display:'flex',gap:12,marginTop:12,flexWrap:'wrap'}}>
+          {[
+            {label:'📋 Review',count:reviewLeads.length,id:'review',color:'var(--green)'},
+            {label:'⏳ Pending',count:pendingLeads.length,id:'pending',color:'var(--text2)'},
+            {label:'✉ Approved',count:approvedLeads.length,id:'approved',color:'var(--amber)'},
+            {label:'✅ Sent',count:sentLeads.length,id:'sent',color:'var(--text2)'},
+            {label:'➕ Add Lead',count:null,id:'add',color:'var(--text2)'},
+            {label:'🗄 Archive',count:archivedLeads.length,id:'archive',color:'var(--text3)'},
+          ].map(t=>(
+            <button key={t.id}
+              onClick={()=>setTab(t.id)}
+              style={{background:tab===t.id?'rgba(240,165,0,.12)':'var(--bg2)',
+                border:'1px solid '+(tab===t.id?'var(--amber)':'var(--border)'),
+                color:tab===t.id?'var(--amber)':t.color,
+                padding:'6px 12px',fontSize:11,fontFamily:'var(--fh)',
+                letterSpacing:1,cursor:'pointer',borderRadius:3,display:'flex',alignItems:'center',gap:6}}>
+              {t.label}{t.count!=null&&<span style={{background:'var(--bg3)',padding:'1px 6px',borderRadius:10,fontSize:10}}>{t.count}</span>}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ADD LEAD FORM */}
+      {tab==='add'&&(
+        <div style={{background:'var(--bg2)',border:'1px solid var(--border)',borderRadius:6,padding:20,marginBottom:12}}>
+          <div style={{color:'var(--text1)',fontFamily:'var(--fh)',fontSize:11,letterSpacing:1.5,marginBottom:16}}>ADD NEW LEAD</div>
+          <form onSubmit={handleAddLead}>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:12}}>
+              <div>
+                <div style={{color:'var(--text2)',fontSize:11,marginBottom:4}}>Company Name *</div>
+                <input value={form.company} onChange={e=>setForm(p=>({...p,company:e.target.value}))}
+                  placeholder="Acme Corp" required
+                  style={{width:'100%',background:'var(--bg3)',border:'1px solid var(--border)',color:'var(--text1)',padding:'8px 10px',fontSize:13,borderRadius:3,boxSizing:'border-box'}}/>
+              </div>
+              <div>
+                <div style={{color:'var(--text2)',fontSize:11,marginBottom:4}}>Domain</div>
+                <input value={form.domain} onChange={e=>setForm(p=>({...p,domain:e.target.value}))}
+                  placeholder="acme.com"
+                  style={{width:'100%',background:'var(--bg3)',border:'1px solid var(--border)',color:'var(--text1)',padding:'8px 10px',fontSize:13,borderRadius:3,boxSizing:'border-box'}}/>
+              </div>
+              <div>
+                <div style={{color:'var(--text2)',fontSize:11,marginBottom:4}}>Contact Name</div>
+                <input value={form.contact_name} onChange={e=>setForm(p=>({...p,contact_name:e.target.value}))}
+                  placeholder="Jane Smith"
+                  style={{width:'100%',background:'var(--bg3)',border:'1px solid var(--border)',color:'var(--text1)',padding:'8px 10px',fontSize:13,borderRadius:3,boxSizing:'border-box'}}/>
+              </div>
+              <div>
+                <div style={{color:'var(--text2)',fontSize:11,marginBottom:4}}>Contact Email</div>
+                <input value={form.contact_email} onChange={e=>setForm(p=>({...p,contact_email:e.target.value}))}
+                  placeholder="jane@acme.com" type="email"
+                  style={{width:'100%',background:'var(--bg3)',border:'1px solid var(--border)',color:'var(--text1)',padding:'8px 10px',fontSize:13,borderRadius:3,boxSizing:'border-box'}}/>
+              </div>
+            </div>
+            <button type="submit" disabled={submitting||!form.company}
+              style={{background:'var(--amber)',color:'#000',border:'none',padding:'10px 24px',
+                fontFamily:'var(--fh)',fontSize:11,letterSpacing:1.5,cursor:'pointer',borderRadius:3,
+                opacity:submitting||!form.company?0.5:1}}>
+              {submitting?'ADDING...':'ADD LEAD →'}
+            </button>
+            <div style={{color:'var(--text3)',fontSize:11,marginTop:10}}>
+              Bot will research &amp; score within 15 min. Contact email needed for sending.
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* REVIEW LEADS (b2b_review) */}
+      {tab==='review'&&reviewLeads.length===0&&(
+        <div style={{background:'var(--bg2)',border:'1px solid var(--border)',borderRadius:6,padding:32,textAlign:'center',color:'var(--text3)'}}>
+          <div style={{fontSize:32,marginBottom:8}}>🏢</div>
+          <div style={{fontFamily:'var(--fh)',fontSize:12,letterSpacing:1}}>NO LEADS READY FOR REVIEW</div>
+          <div style={{fontSize:12,marginTop:6}}>Add leads via the ➕ Add Lead tab. Bot processes them every 15 min.</div>
+        </div>
+      )}
+
+      {tab==='review'&&reviewLeads.map(lead=>{
+        const r=lead.research||{};
+        const isExpanded=expandedLead===lead.id;
+        return (
+          <div key={lead.id} style={{background:'var(--bg2)',border:'1px solid var(--border)',borderRadius:6,padding:16,marginBottom:12}}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:12}}>
+              <div>
+                <div style={{color:'var(--text1)',fontSize:14,fontWeight:600}}>{lead.company}</div>
+                <div style={{color:'var(--text2)',fontSize:12,marginTop:2}}>{lead.domain} {lead.contact_name&&`· ${lead.contact_name}`} {lead.contact_email&&`<${lead.contact_email}>`}</div>
+                <div style={{color:'var(--text3)',fontSize:11,marginTop:2}}>{r.industry} · Est. {r.estimated_size} employees · Confidence: {r.research_confidence}</div>
+              </div>
+              <div style={{textAlign:'right'}}>
+                <div style={{fontSize:24,fontWeight:700,color:scoreColor(lead.icpScore||0)}}>{lead.icpScore||0}<span style={{fontSize:12,color:'var(--text3)'}}>/10</span></div>
+                <div style={{fontSize:10,color:'var(--text3)',fontFamily:'var(--fh)',letterSpacing:1}}>ICP FIT</div>
+              </div>
+            </div>
+
+            <div style={{fontSize:12,color:'var(--text2)',marginBottom:10}}>{r.company_description}</div>
+
+            {r.pain_points&&r.pain_points.length>0&&(
+              <div style={{marginBottom:10}}>
+                <div style={{color:'var(--text3)',fontSize:10,fontFamily:'var(--fh)',letterSpacing:1,marginBottom:4}}>PAIN POINTS</div>
+                {r.pain_points.map((p,i)=><div key={i} style={{fontSize:12,color:'var(--text2)',paddingLeft:10,borderLeft:'2px solid var(--amber)'}}>· {p}</div>)}
+              </div>
+            )}
+
+            <div style={{background:'var(--bg3)',borderRadius:4,padding:12,marginBottom:12,cursor:'pointer'}}
+              onClick={()=>setExpandedLead(isExpanded?null:lead.id)}>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                <div style={{color:'var(--text2)',fontSize:11,fontFamily:'var(--fh)',letterSpacing:1}}>✉ EMAIL DRAFT · {lead.emailSubject}</div>
+                <div style={{color:'var(--text3)',fontSize:11}}>{isExpanded?'▲ collapse':'▼ expand'}</div>
+              </div>
+              {isExpanded&&<pre style={{marginTop:10,fontSize:12,color:'var(--text1)',whiteSpace:'pre-wrap',fontFamily:'inherit'}}>{lead.emailDraft}</pre>}
+            </div>
+
+            <div style={{display:'flex',gap:8}}>
+              <button onClick={()=>onApprove(lead.id)}
+                style={{background:'var(--green)',color:'#fff',border:'none',padding:'8px 18px',
+                  fontFamily:'var(--fh)',fontSize:11,letterSpacing:1,cursor:'pointer',borderRadius:3,flex:1}}>
+                ✓ APPROVE &amp; QUEUE SEND
+              </button>
+              <button onClick={()=>onReject(lead.id)}
+                style={{background:'transparent',color:'var(--text3)',border:'1px solid var(--border)',
+                  padding:'8px 14px',fontFamily:'var(--fh)',fontSize:11,letterSpacing:1,cursor:'pointer',borderRadius:3}}>
+                ✗ REJECT
+              </button>
+            </div>
+          </div>
+        );
+      })}
+
+      {/* PENDING LEADS */}
+      {tab==='pending'&&(
+        pendingLeads.length===0
+          ? <div style={{background:'var(--bg2)',border:'1px solid var(--border)',borderRadius:6,padding:24,textAlign:'center',color:'var(--text3)',fontSize:12}}>No pending leads. Add via ➕ Add Lead tab.</div>
+          : pendingLeads.map(lead=>(
+            <div key={lead.id} style={{background:'var(--bg2)',border:'1px solid var(--border)',borderRadius:6,padding:14,marginBottom:8,display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+              <div>
+                <div style={{color:'var(--text1)',fontSize:13}}>{lead.company}</div>
+                <div style={{color:'var(--text2)',fontSize:11}}>{lead.domain} {lead.contact_name&&`· ${lead.contact_name}`}</div>
+              </div>
+              <div style={{fontFamily:'var(--fh)',fontSize:10,letterSpacing:1,color:lead.status==='researching'?'var(--amber)':'var(--text3)'}}>
+                {lead.status==='researching'?'⚡ RESEARCHING...':'⏳ QUEUED'}
+              </div>
+            </div>
+          ))
+      )}
+
+      {/* APPROVED (queued to send) */}
+      {tab==='approved'&&(
+        approvedLeads.length===0
+          ? <div style={{background:'var(--bg2)',border:'1px solid var(--border)',borderRadius:6,padding:24,textAlign:'center',color:'var(--text3)',fontSize:12}}>No approved leads. Review drafts in the Review tab.</div>
+          : approvedLeads.map(lead=>(
+            <div key={lead.id} style={{background:'var(--bg2)',border:'1px solid var(--border)',borderLeft:'3px solid var(--amber)',borderRadius:6,padding:14,marginBottom:8}}>
+              <div style={{display:'flex',justifyContent:'space-between'}}>
+                <div>
+                  <div style={{color:'var(--text1)',fontSize:13}}>{lead.company}</div>
+                  <div style={{color:'var(--text2)',fontSize:11}}>{lead.contact_email||'No email set'} · {lead.emailSubject}</div>
+                </div>
+                <div style={{fontFamily:'var(--fh)',fontSize:10,letterSpacing:1,color:'var(--amber)'}}>⏳ SENDING NEXT RUN</div>
+              </div>
+            </div>
+          ))
+      )}
+
+      {/* SENT */}
+      {tab==='sent'&&(
+        sentLeads.length===0
+          ? <div style={{background:'var(--bg2)',border:'1px solid var(--border)',borderRadius:6,padding:24,textAlign:'center',color:'var(--text3)',fontSize:12}}>No sent emails yet.</div>
+          : sentLeads.map(lead=>(
+            <div key={lead.id} style={{background:'var(--bg2)',border:'1px solid var(--border)',borderLeft:'3px solid var(--green)',borderRadius:6,padding:14,marginBottom:8}}>
+              <div style={{color:'var(--text1)',fontSize:13}}>{lead.company}</div>
+              <div style={{color:'var(--text2)',fontSize:11}}>{lead.contact_email} · {lead.emailSubject}</div>
+              <div style={{color:'var(--text3)',fontSize:11,marginTop:4}}>Sent {lead.sentAt?new Date(lead.sentAt).toLocaleDateString():''}</div>
+            </div>
+          ))
+      )}
+
+      {/* ARCHIVE */}
+      {tab==='archive'&&(
+        archivedLeads.length===0
+          ? <div style={{background:'var(--bg2)',border:'1px solid var(--border)',borderRadius:6,padding:24,textAlign:'center',color:'var(--text3)',fontSize:12}}>Archive is empty.</div>
+          : archivedLeads.map(lead=>(
+            <div key={lead.id} style={{background:'var(--bg2)',border:'1px solid var(--border)',borderRadius:6,padding:14,marginBottom:8,opacity:0.6}}>
+              <div style={{display:'flex',justifyContent:'space-between'}}>
+                <div>
+                  <div style={{color:'var(--text1)',fontSize:13}}>{lead.company}</div>
+                  <div style={{color:'var(--text2)',fontSize:11}}>{lead.domain}</div>
+                </div>
+                <div style={{fontFamily:'var(--fh)',fontSize:10,letterSpacing:1,color:'var(--text3)'}}>
+                  {lead.status==='low_score'?`SCORE ${lead.icpScore}/10 (too low)`:lead.status.replace('b2b_','').toUpperCase()}
+                </div>
+              </div>
+            </div>
+          ))
+      )}
+    </div>
+  );
+}
+
 // MAIN APP
 // ─────────────────────────────────────────
 function App(){
   const [tasks,setTasks]=useState(()=>store.get('tf_tasks',[]));
+  const [b2bLeads,setB2bLeads]=useState([]);
   const [view,setView]=useState('inbox');
   const [filter,setFilter]=useState('all');
   const [loading,setLoading]=useState(false);
@@ -500,12 +728,18 @@ function App(){
     const poll=setInterval(async()=>{
       try{
         const data=await dbRef.current.get('/tasks');
-        if(!data) return;
-        setTasks(prev=>{
-          const byId=Object.fromEntries(prev.map(t=>[t.id,t]));
-          Object.entries(data).forEach(([k,v])=>{if(v&&typeof v==='object') byId[k]={...(byId[k]||{}), ...v}});
-          return Object.values(byId);
-        });
+        if(data){
+          setTasks(prev=>{
+            const byId=Object.fromEntries(prev.map(t=>[t.id,t]));
+            Object.entries(data).forEach(([k,v])=>{if(v&&typeof v==='object') byId[k]={...(byId[k]||{}), ...v}});
+            return Object.values(byId);
+          });
+        }
+        // Also poll B2B leads
+        const b2bData=await dbRef.current.get('/b2b_leads');
+        if(b2bData){
+          setB2bLeads(Object.entries(b2bData).map(([id,v])=>({id,...v})));
+        }
       }catch{}
     },15000);
     return()=>clearInterval(poll);
@@ -532,6 +766,42 @@ function App(){
     if(dbRef.current) try{await dbRef.current.patch('/tasks/'+taskId,{status:'skipped'})}catch{}
     showToast('Skipped');
   },[]);
+
+  // B2B: Approve lead for sending
+  const approveB2bLead = useCallback(async(leadId) => {
+    setB2bLeads(prev=>prev.map(l=>l.id===leadId?{...l,status:'b2b_approved'}:l));
+    if(dbRef.current){
+      try{
+        await dbRef.current.patch('/b2b_leads/'+leadId,{status:'b2b_approved',approvedAt:Date.now()});
+        showToast('✓ Lead approved — email sends on next bot run (≤15 min)');
+      }catch(e){showToast('Approved locally — Firebase sync error','warn')}
+    }
+  },[showToast]);
+
+  // B2B: Reject/archive lead
+  const rejectB2bLead = useCallback(async(leadId) => {
+    setB2bLeads(prev=>prev.map(l=>l.id===leadId?{...l,status:'b2b_rejected'}:l));
+    if(dbRef.current){
+      try{await dbRef.current.patch('/b2b_leads/'+leadId,{status:'b2b_rejected'})}catch{}
+    }
+    showToast('Lead archived');
+  },[]);
+
+  // B2B: Add a new lead manually
+  const addB2bLead = useCallback(async(company, domain, contactName, contactEmail) => {
+    if(!company) return;
+    const id='lead_'+Date.now();
+    const lead={id, company, domain:domain||'', contact_name:contactName||'', contact_email:contactEmail||'', status:'new', addedAt:Date.now()};
+    setB2bLeads(prev=>[lead,...prev]);
+    if(dbRef.current){
+      try{
+        await dbRef.current.set('/b2b_leads/'+id, lead);
+        showToast(`✓ Lead "${company}" added — bot enriches within 15 min`);
+      }catch(e){showToast('Added locally — Firebase sync error','warn')}
+    } else {
+      showToast('Lead added (connect Firebase for bot processing)','warn');
+    }
+  },[showToast]);
 
   const markPaid = useCallback(async(taskId) => {
     const task = tasks.find(t=>t.id===taskId);
@@ -640,6 +910,19 @@ function App(){
           </div>
         ):done.map(t=><TaskCard key={t.id} task={t} onSkip={skipTask} onMarkPaid={markPaid} payment={payment}/>)}
       </>)}
+
+
+      {/* ── B2B LEAD ENRICHMENT ── */}
+      {view==='b2b'&&(
+        <div style={{paddingBottom:80}}>
+          <B2BView
+            leads={b2bLeads}
+            onApprove={approveB2bLead}
+            onReject={rejectB2bLead}
+            onAddLead={addB2bLead}
+          />
+        </div>
+      )}
 
       {/* ── SETTINGS ── */}
       {view==='settings'&&(
@@ -772,6 +1055,10 @@ function App(){
       </button>
       <button className={'nav-btn'+(view==='done'?' active':'')} onClick={()=>setView('done')}>
         <span className="nav-icon">✅</span>DONE
+      </button>
+      <button className={'nav-btn'+(view==='b2b'?' active':'')} onClick={()=>setView('b2b')}>
+        {b2bLeads.filter(l=>l.status==='b2b_review').length>0&&<span className="nav-badge" style={{background:'var(--green)'}}>{b2bLeads.filter(l=>l.status==='b2b_review').length}</span>}
+        <span className="nav-icon">🏢</span>B2B
       </button>
       <button className={'nav-btn'+(view==='settings'?' active':'')} onClick={()=>setView('settings')}>
         <span className="nav-icon">⚙</span>SETUP
